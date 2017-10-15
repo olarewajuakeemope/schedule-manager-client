@@ -6,6 +6,7 @@
 
 import React, { Component } from 'react';
 import Parse from 'parse/react-native';
+import Relay from 'react-relay/classic';
 import { SERVER_URL, APP_ID } from 'react-native-dotenv';
 import {
   Platform,
@@ -32,6 +33,12 @@ export default class App extends Component<{}> {
     console.disableYellowBox = true;
     Parse.initialize(APP_ID);
     Parse.serverURL = `${SERVER_URL}/parse`;
+    Relay.injectNetworkLayer(
+      new Relay.DefaultNetworkLayer(`${SERVER_URL}/graphql`, {
+        fetchTimeout: 30000,
+        retryDelays: [5000, 10000],
+      }),
+    );
   }
   render() {
     return (
