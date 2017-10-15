@@ -1,4 +1,4 @@
-import { Navigator } from '../DOCNavigator';
+import { Navigator } from '../SMNavigator';
 
 const initialState = Navigator.router.getStateForAction(Navigator.router.getActionForPathAndParams('home'));
 

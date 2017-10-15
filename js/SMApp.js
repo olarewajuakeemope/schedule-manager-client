@@ -2,55 +2,57 @@
  * @flow
  */
 
+'use strict';
+
 import React, { Component } from 'react';
 import {
-  Platform,
+  StatusBar,
+  AppState,
   StyleSheet,
-  Text,
   View
 } from 'react-native';
+import { connect } from 'react-redux';
+import SMNavigator from './SMNavigator';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+class SMApp extends Component<{}> {
+  componentDidMount() {
+    AppState.addEventListener('change', this.handleAppStateChange);
+  }
 
-export default class SMApp extends Component<{}> {
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
+  }
+
+  handleAppStateChange(appState) {
+    if (appState === 'active') {
+    }
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
+        <StatusBar
+          translucent={true}
+          backgroundColor="rgba(0, 0, 0, 0.2)"
+          barStyle="light-content"
+         />
+        <SMNavigator />
       </View>
     );
   }
+
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
+
+function select(store) {
+  return {
+    isLoggedIn: store.user.isLoggedIn || store.user.hasSkippedLogin,
+  };
+}
+
+export default connect(select)(SMApp);

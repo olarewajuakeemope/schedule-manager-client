@@ -16,7 +16,7 @@ module.exports = combineReducers({
   topics: require('./topics'),
   filter: require('./filter'),
   navigation: require('./navigation'),
-  // nav: require('./reduxNavigation'),
+  nav: require('./reduxNavigation'),
   friendsSchedules: require('./friendsSchedules'),
   surveys: require('./surveys'),
 });
