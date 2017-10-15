@@ -3,14 +3,22 @@
 import React, { Component } from 'react';
 import {
   BackHandler,
-  StyleSheet,
 } from 'react-native';
+import PropTypes from 'prop-types';
 import { StackNavigator, addNavigationHelpers, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import SMTabsView from './tabs/SMTabsView';
+import SMMapView from './tabs/maps/SMMapView';
+import MyScheduleView from './tabs/schedule/MyScheduleView';
+import SMInfoView from './tabs/info/SMInfoView';
+import SMNotificationsView from './tabs/notifications/SMNotificationsView';
 
 export const Navigator = StackNavigator({
   home: { screen: SMTabsView },
+  map: { screen: SMMapView },
+  schedule: { screen: MyScheduleView },
+  notifications: { screen: SMNotificationsView },
+  info: { screen: SMInfoView },
 }, {
   navigationOptions: {
     tabBarVisible: false,
@@ -20,6 +28,7 @@ export const Navigator = StackNavigator({
 });
 
 class SMNavigator extends Component<{}> {
+  _handlers = ([]: Array<() => boolean>);
 
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
@@ -27,6 +36,21 @@ class SMNavigator extends Component<{}> {
 
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  getChildContext() {
+    return {
+      addBackButtonListener: this.addBackButtonListener,
+      removeBackButtonListener: this.removeBackButtonListener,
+    };
+  }
+
+  addBackButtonListener = (listener) => {
+    this._handlers.push(listener);
+  }
+
+  removeBackButtonListener = (listener) => {
+    this._handlers = this._handlers.filter((handler) => handler !== listener);
   }
 
   handleBackButton = () => {
@@ -50,12 +74,10 @@ class SMNavigator extends Component<{}> {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-  },
-});
+SMNavigator.childContextTypes = {
+  addBackButtonListener: PropTypes.func,
+  removeBackButtonListener: PropTypes.func,
+};
 
 function select(store) {
   return {
