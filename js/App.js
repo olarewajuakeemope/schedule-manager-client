@@ -5,6 +5,8 @@
  */
 
 import React, { Component } from 'react';
+import Parse from 'parse/react-native';
+import { SERVER_URL, APP_ID } from 'react-native-dotenv';
 import {
   Platform,
   StyleSheet,
@@ -20,6 +22,17 @@ const instructions = Platform.select({
 });
 
 export default class App extends Component<{}> {
+  state: {
+    isLoading: boolean;
+    store: any;
+  };
+
+  constructor() {
+    super();
+    console.disableYellowBox = true;
+    Parse.initialize(APP_ID);
+    Parse.serverURL = `${SERVER_URL}/parse`;
+  }
   render() {
     return (
       <View style={styles.container}>
