@@ -26,16 +26,16 @@ var formatDuration = require('./formatDuration');
 var {connect} = require('react-redux');
 var {addToSchedule, removeFromScheduleWithPrompt} = require('../../actions');
 
-var SMSessionDetails = React.createClass({
-  mixins: [Subscribable.Mixin],
+class SMSessionDetails extends React.Component{
+  mixins = [Subscribable.Mixin];
 
-  getInitialState: function() {
+  getInitialState() {
     return {
       scrollTop: new Animated.Value(0),
     };
-  },
+  }
 
-  render: function() {
+  render() {
     var speakersProfiles = this.props.session.speakers.map(
       (speaker) => (
         <SMSpeakerProfile
@@ -142,17 +142,17 @@ var SMSessionDetails = React.createClass({
         </Animated.View>
       </View>
     );
-  },
+  }
 
-  toggleAdded: function() {
+  toggleAdded() {
     if (this.props.isAddedToSchedule) {
       this.props.removeFromScheduleWithPrompt();
     } else {
       this.addToSchedule();
     }
-  },
+  }
 
-  addToSchedule: function() {
+  addToSchedule() {
     if (!this.props.isLoggedIn) {
       this.props.navigator.push({
         login: true, // TODO: Proper route
@@ -164,8 +164,8 @@ var SMSessionDetails = React.createClass({
         setTimeout(() => this.props.navigator.push({share: true}), 1000);
       }
     }
-  },
-});
+  }
+};
 
 class Section extends React.Component {
   props: {

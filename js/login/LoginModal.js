@@ -1,37 +1,19 @@
 /**
- * Copyright 2016 Facebook, Inc.
- *
- * You are hereby granted a non-exclusive, worldwide, royalty-free license to
- * use, copy, modify, and distribute this software in source code or binary
- * form for use in connection with the web services and APIs provided by
- * Facebook.
- *
- * As with any software that integrates with the Facebook platform, your use
- * of this software is subject to the Facebook Developer Principles and
- * Policies [http://developers.facebook.com/policy/]. This copyright notice
- * shall be included in all copies or substantial portions of the software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE
- *
  * @flow
  */
 'use strict';
 
-var LoginButton = require('../common/LoginButton');
-var DOCColors = require('../common/DOCColors');
-var Image = require('Image');
-var React = require('React');
-var StyleSheet = require('StyleSheet');
-var { Text } = require('../common/DOCText');
-var View = require('View');
-var DOCButton = require('../common/DOCButton');
+import React from 'React';
 import { StackNavigator } from 'react-navigation';
+import {
+  StyleSheet,
+  Image,
+  View
+} from 'react-native';
+import LoginButton from '../common/LoginButton';
+import SMColors from '../common/SMColors';
+import { Text } from '../common/SMText';
+import SMButton from '../common/SMButton';
 
 class LoginModal extends React.Component {
   props: {
@@ -52,7 +34,7 @@ class LoginModal extends React.Component {
             to save sessions to{'\n'}your schedule.
           </Text>
           <LoginButton onLoggedIn={() => this.loggedIn()} />
-          <DOCButton
+          <SMButton
             type="secondary"
             caption="Not Now"
             source="Modal"
@@ -89,14 +71,14 @@ var styles = StyleSheet.create({
   h1: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: DOCColors.darkText,
+    color: SMColors.darkText,
     textAlign: 'center',
     marginTop: 130,
   },
   h2: {
     fontSize: 18,
     lineHeight: 22,
-    color: DOCColors.darkText,
+    color: SMColors.darkText,
     textAlign: 'center',
     marginBottom: 120,
   },
@@ -104,7 +86,7 @@ var styles = StyleSheet.create({
     padding: 20,
   },
   notNowLabel: {
-    color: DOCColors.lightText,
+    color: SMColors.lightText,
   }
 });
 

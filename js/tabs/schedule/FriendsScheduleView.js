@@ -3,20 +3,20 @@
  */
 'use strict';
 
+import React from 'React';
 import { StackNavigator } from 'react-navigation';
-var ProfilePicture = require('../../common/ProfilePicture');
-var React = require('React');
-var EmptySchedule = require('./EmptySchedule');
-var FilterSessions = require('./filterSessions');
-var ListContainer = require('ListContainer');
-var ScheduleListView = require('./ScheduleListView');
+import { connect } from 'react-redux';
+import ProfilePicture from '../../common/ProfilePicture';
+import EmptySchedule from './EmptySchedule';
+import FilterSessions from './filterSessions';
+import ListContainer from '../../common/ListContainer';
+import ScheduleListView from './ScheduleListView';
 
-var { connect } = require('react-redux');
 
 import type {Session} from '../../reducers/sessions';
 import type {FriendsSchedule} from '../../reducers/friendsSchedules';
 
-var { createSelector } = require('reselect');
+import { createSelector } from 'reselect';
 
 type Props = {
   sessions: Array<Session>;

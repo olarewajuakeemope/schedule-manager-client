@@ -13,6 +13,15 @@ import MyScheduleView from './tabs/schedule/MyScheduleView';
 import SMInfoView from './tabs/info/SMInfoView';
 import SMNotificationsView from './tabs/notifications/SMNotificationsView';
 
+import FriendsScheduleView from './tabs/schedule/FriendsScheduleView';
+import FilterScreen from './filter/FilterScreen';
+import LoginModal from './login/LoginModal';
+import SessionsCarousel from './tabs/schedule/SessionsCarousel';
+import SharingSettingsModal from './tabs/schedule/SharingSettingsModal';
+import SharingSettingsScreen from './tabs/schedule/SharingSettingsScreen';
+import ThirdPartyNotices from './tabs/info/ThirdPartyNotices';
+import RatingScreen from './rating/RatingScreen';
+
 export const Navigator = StackNavigator({
   home: { screen: SMTabsView },
   map: { screen: SMMapView },

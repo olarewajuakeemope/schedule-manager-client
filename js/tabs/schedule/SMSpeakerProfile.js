@@ -5,15 +5,17 @@
 
 'use strict';
 
-var SMColors = require('../../common/SMColors');
-var Image = require('Image');
-var React = require('React');
-var StyleSheet = require('StyleSheet');
-var { Text } = require('../../common/SMText');
-var View = require('View');
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  Image,
+  View
+} from 'react-native';
+import SMColors from '../../common/SMColors';
+import { Text } from '../../common/SMText';
 
-var SMSpeakerProfile = React.createClass({
-  render: function() {
+class SMSpeakerProfile extends Component {
+  render() {
     var speaker = this.props.speaker;
     return (
       <View style={styles.row}>
@@ -25,7 +27,7 @@ var SMSpeakerProfile = React.createClass({
       </View>
     );
   }
-});
+}
 
 const SIZE = 76;
 

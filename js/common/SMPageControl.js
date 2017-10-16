@@ -4,20 +4,19 @@
  */
 'use strict';
 
+import PropTypes from 'prop-types';
 var React = require('React');
 var StyleSheet = require('StyleSheet');
 var View = require('View');
 
-var PropTypes = React.PropTypes;
-
-var F8PageControl = React.createClass({
+class F8PageControl extends React.Component {
   propTypes: {
     style: View.propTypes.style,
     count: PropTypes.number.isRequired,
     selectedIndex: PropTypes.number.isRequired,
-  },
+  }
 
-  render: function() {
+  render() {
     var images = [];
     for (var i = 0; i < this.props.count; i++) {
       var isSelected = this.props.selectedIndex === i;
@@ -31,14 +30,14 @@ var F8PageControl = React.createClass({
       </View>
     );
   }
-});
+}
 
-var Circle = React.createClass({
-  render: function() {
+class Circle extends React.Component {
+  render() {
     var extraStyle = this.props.isSelected ? styles.full : styles.empty;
     return <View style={[styles.circle, extraStyle]} />;
   }
-});
+};
 
 var CIRCLE_SIZE = 4;
 

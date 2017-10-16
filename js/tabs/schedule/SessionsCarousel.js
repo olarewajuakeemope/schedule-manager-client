@@ -3,6 +3,7 @@
  */
 'use strict';
 
+import { StackNavigator } from 'react-navigation';
 const Parse = require('parse/react-native');
 // const {AppEventsLogger} = require('react-native-fbsdk');
 const React = require('react');
@@ -22,7 +23,6 @@ import type {Dispatch} from '../../actions/types';
 const {
   Text,
   View,
-  Navigator,
 } = require('react-native');
 
 import type {Session} from '../../reducers/sessions';
@@ -36,7 +36,7 @@ type Context = {
 type Props = {
   allSessions?: {[sectionID: string]: {[sessionID: string]: Session}};
   session: Session;
-  navigator: Navigator;
+  navigator: StackNavigator;
   dispatch: Dispatch;
 };
 
@@ -145,7 +145,7 @@ class SessionsCarusel extends React.Component {
     return (
       <SMSessionDetails
         style={styles.card}
-        navigator={this.props.navigator}
+        navigator={this.props.navigation}
         session={this.state.flatSessionsList[index]}
         onShare={this.shareCurrentSession}
       />
@@ -163,7 +163,7 @@ class SessionsCarusel extends React.Component {
   }
 
   dismiss() {
-    this.props.navigator.pop();
+    this.props.navigation.pop();
   }
 
   handleIndexChange(selectedIndex: number) {
