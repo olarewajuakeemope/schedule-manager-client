@@ -18,6 +18,12 @@ import LoginButton from '../common/LoginButton';
 import { Text } from '../common/SMText';
 import MenuItem from './MenuItem';
 import GeneralScheduleView from './schedule/GeneralScheduleView';
+import SMInfoView from './info/SMInfoView';
+import SMMapView from './maps/SMMapView';
+import SMNotificationsView from './notifications/SMNotificationsView';
+import ProfilePicture from '../common/ProfilePicture';
+import MyScheduleView from './schedule/MyScheduleView';
+import unseenNotificationsCount from './notifications/unseenNotificationsCount';
 
 
 import { switchTab, logOutWithPrompt } from '../actions';
@@ -36,6 +42,7 @@ class SMTabsView extends Component<{}> {
     super(props);
 
     this.renderNavigationView = this.renderNavigationView.bind(this);
+    this.openProfileSettings = this.openProfileSettings.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
   }
 
@@ -58,6 +65,11 @@ class SMTabsView extends Component<{}> {
     this.refs.drawer.closeDrawer();
   }
 
+  openProfileSettings() {
+    this.refs.drawer.closeDrawer();
+    this.props.navigation.navigate('shareSettings');
+  }
+
   renderNavigationView() {
     var scheduleIcon = this.props.day === 1
       ? require('./schedule/img/schedule-icon-1.png')
@@ -71,16 +83,19 @@ class SMTabsView extends Component<{}> {
       var name = this.props.user.name || '';
       accountItem = (
         <View>
+          <TouchableOpacity onPress={this.openProfileSettings}>
+            <ProfilePicture userID={this.props.user.id} size={80} />
+          </TouchableOpacity>
           <Text style={styles.name}>
-            hello
+            {name.toUpperCase()}
           </Text>
         </View>
       );
       mySMItem = (
         <MenuItem
           title="My SM"
-          selected={this.props.tab === 'my-schedule'}
-          onPress={this.onTabSelect.bind(this, 'my-schedule')}
+          selected={this.props.tab === 'mySchedule'}
+          onPress={this.onTabSelect.bind(this, 'mySchedule')}
           icon={require('./schedule/img/my-schedule-icon.png')}
           selectedIcon={require('./schedule/img/my-schedule-icon-active.png')}
         />
@@ -99,7 +114,7 @@ class SMTabsView extends Component<{}> {
           <Text style={styles.loginText}>
             Log in to find your friends at SM.
           </Text>
-          <LoginButton />
+          <LoginButton source="Drawer" />
         </View>
       );
     }
@@ -156,17 +171,20 @@ class SMTabsView extends Component<{}> {
 
       case 'my-schedule':
         return (
-          <View />
+          <MyScheduleView
+            navigation={this.props.navigation}
+            onJumpToSchedule={() => this.props.onTabSelect('schedule')}
+        />
         );
 
       case 'map':
-        return <View />;
+        return <SMMapView />;
 
       case 'notifications':
-        return <View />;
+        return <SMNotificationsView navigation={this.props.navigation} />;
 
       case 'info':
-        return <View />;
+        return <SMInfoView navigation={this.props.navigation} />;
     }
     throw new Error(`Unknown tab ${this.props.tab}`);
   }
@@ -196,7 +214,7 @@ function select(store) {
     tab: store.navigation.tab,
     day: store.navigation.day,
     user: store.user,
-    // notificationsBadge: unseenNotificationsCount(store) + store.surveys.length,
+    notificationsBadge: unseenNotificationsCount(store) + store.surveys.length,
   };
 }
 

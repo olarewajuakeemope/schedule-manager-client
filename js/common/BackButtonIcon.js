@@ -4,7 +4,7 @@
 
 'use strict';
 
-var Platform = require('Platform');
+import { Platform } from 'react-native';
 
 if (Platform.OS === 'ios') {
   module.exports = require('./img/x-white.png');

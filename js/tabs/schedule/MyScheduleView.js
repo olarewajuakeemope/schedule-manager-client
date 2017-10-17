@@ -3,33 +3,32 @@
  */
 'use strict';
 
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { StackNavigator } from 'react-navigation';
-var EmptySchedule = require('./EmptySchedule');
-var SMButton = require('../../common/SMButton');
-var FilterSessions = require('./filterSessions');
-var ListContainer = require('../../common/ListContainer');
-var LoginButton = require('../../common/LoginButton');
-var ProfilePicture = require('../../common/ProfilePicture');
-var React = require('React');
-var PureListView = require('../../common/PureListView');
-var ScheduleListView = require('./ScheduleListView');
-var FriendsListView = require('./FriendsListView');
+import EmptySchedule from './EmptySchedule';
+import SMButton from '../../common/SMButton';
+import FilterSessions from './filterSessions';
+import ListContainer from '../../common/ListContainer';
+import LoginButton from '../../common/LoginButton';
+import ProfilePicture from '../../common/ProfilePicture';
+import PureListView from '../../common/PureListView';
+import ScheduleListView from './ScheduleListView';
+import FriendsListView from './FriendsListView';
 
-var { connect } = require('react-redux');
-
-var {
+import {
   logOutWithPrompt,
   switchTab,
   switchDay,
   loadFriendsSchedules,
-} = require('../../actions');
+} from '../../actions';
 
 import type {Session} from '../../reducers/sessions';
 import type {FriendsSchedule} from '../../reducers/friendsSchedules';
 import type {State as User} from '../../reducers/user';
 import type {State as Schedule} from '../../reducers/schedule';
 
-var { createSelector } = require('reselect');
+import { createSelector } from 'reselect';
 
 
 type Props = {
@@ -37,14 +36,14 @@ type Props = {
   sessions: Array<Session>;
   friends: Array<FriendsSchedule>;
   schedule: Schedule;
-  navigator: StackNavigator;
+  navigation: StackNavigator;
   logOut: () => void;
   jumpToSchedule: (day: number) => void;
   loadFriendsSchedules: () => void;
 };
 
 // TODO: Rename to MySMView
-class MyScheduleView extends React.Component {
+class MyScheduleView extends Component {
   props: Props;
 
   constructor(props) {
@@ -69,7 +68,6 @@ class MyScheduleView extends React.Component {
     const profilePicture = isLoggedIn && id
       ? <ProfilePicture userID={id} size={100} />
       : null;
-
     return (
       <ListContainer
         title="My SM"
@@ -77,12 +75,12 @@ class MyScheduleView extends React.Component {
         backgroundImage={require('./img/my-f8-background.png')}
         backgroundColor={'#A8D769'}
         onSegmentChange={this.handleSegmentChanged}
-        rightItem={rightItem}>
+        rightItem={rightItem}
+      >
         {this.renderContent()}
-      </ListContainer>
+    </ListContainer>
     );
   }
-
   renderContent() {
     if (!this.props.user.isLoggedIn) {
       return (
@@ -98,19 +96,19 @@ class MyScheduleView extends React.Component {
         day={1}
         sessions={this.props.sessions}
         renderEmptyList={this.renderEmptySessionsList}
-        navigator={this.props.navigator}
+        navigation={this.props.navigation}
       />,
       <ScheduleListView
         title="Day 2"
         day={2}
         sessions={this.props.sessions}
         renderEmptyList={this.renderEmptySessionsList}
-        navigator={this.props.navigator}
+        navigation={this.props.navigation}
       />,
       <FriendsListView
         title="Friends"
         friends={this.props.friends}
-        navigator={this.props.navigator}
+        navigation={this.props.navigation}
       />,
     ];
   }
@@ -141,7 +139,7 @@ class MyScheduleView extends React.Component {
   }
 
   openSharingSettings() {
-    this.props.navigator.push({shareSettings: 1});
+    this.props.navigation.navigate('shareSettings');
   }
 
   handleSegmentChanged(segment) {
@@ -181,3 +179,4 @@ function actions(dispatch) {
 }
 
 module.exports = connect(select, actions)(MyScheduleView);
+

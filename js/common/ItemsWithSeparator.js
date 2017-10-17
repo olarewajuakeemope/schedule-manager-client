@@ -3,12 +3,14 @@
  */
 'use strict';
 
-var PixelRatio = require('PixelRatio');
-var React = require('React');
-var StyleSheet = require('StyleSheet');
-var View = require('View');
+import React, { Component } from 'react';
+import {
+  PixelRatio,
+  StyleSheet,
+  View,
+} from 'react-native';
 
-class ItemsWithSeparator extends React.Component {
+class ItemsWithSeparator extends Component {
   props: {
     style?: any;
     separatorStyle?: any;
@@ -40,7 +42,7 @@ class ItemsWithSeparator extends React.Component {
   }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   separator: {
     backgroundColor: '#0322500A',
     height: 1 / PixelRatio.get(),

@@ -25,7 +25,7 @@ import RatingScreen from './rating/RatingScreen';
 export const Navigator = StackNavigator({
   home: { screen: SMTabsView },
   map: { screen: SMMapView },
-  schedule: { screen: MyScheduleView },
+  mySchedule: { screen: MyScheduleView },
   notifications: { screen: SMNotificationsView },
   info: { screen: SMInfoView },
   allSessions: { screen: SessionsCarousel },

@@ -9,6 +9,11 @@ import { StackNavigator } from 'react-navigation';
 
 import SMColors from '../common/SMColors';
 import GeneralScheduleView from './schedule/GeneralScheduleView';
+import SMInfoView from './info/SMInfoView';
+import SMMapView from './maps/SMMapView';
+import SMNotificationsView from './notifications/SMNotificationsView';
+import MyScheduleView from './schedule/MyScheduleView';
+import unseenNotificationsCount from './notifications/unseenNotificationsCount';
 
 
 import { switchTab } from '../actions';
@@ -19,7 +24,7 @@ class SMTabsView extends Component {
     tab: Tab;
     day: Day;
     onTabSelect: (tab: Tab) => void;
-    navigator: StackNavigator;
+    navigation: StackNavigator;
   };
 
   onTabSelect(tab: Tab) {
@@ -53,7 +58,10 @@ class SMTabsView extends Component {
           onPress={this.onTabSelect.bind(this, 'my-schedule')}
           icon={require('./schedule/img/my-schedule-icon.png')}
           selectedIcon={require('./schedule/img/my-schedule-icon-active.png')}>
-          <View />
+          <MyScheduleView
+            navigation={this.props.navigation}
+            onJumpToSchedule={() => this.props.onTabSelect('schedule')}
+          />
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Maps"

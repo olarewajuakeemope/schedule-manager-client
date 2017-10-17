@@ -3,8 +3,9 @@
  */
 'use strict';
 
-const React = require('react');
-const ViewPager = require('./ViewPager');
+import React, { Component } from 'react';
+import ViewPager from './ViewPager';
+
 const StyleSheet = require('./SMStyleSheet');
 
 type Props = {
@@ -15,7 +16,7 @@ type Props = {
   style?: any;
 };
 
-class Carousel extends React.Component {
+class Carousel extends Component {
   props: Props;
 
   render() {
@@ -37,7 +38,7 @@ class Carousel extends React.Component {
   }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   carousel: {
     ios: {
       margin: 10,

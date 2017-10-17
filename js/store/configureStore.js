@@ -27,7 +27,6 @@ var createDOCStore = applyMiddleware(thunk, promise, array, analytics, logger)(c
 function configureStore(onComplete: ?() => void) {
   // TODO(frantic): reconsider usage of redux-persist, maybe add cache breaker
   const store = autoRehydrate()(createDOCStore)(reducers);
-  persistStore(store, { storage: AsyncStorage }, onComplete).purge();
   persistStore(store, { storage: AsyncStorage }, onComplete);
   if (isDebuggingInChrome) {
     window.store = store;
