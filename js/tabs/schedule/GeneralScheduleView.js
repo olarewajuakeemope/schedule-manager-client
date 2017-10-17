@@ -32,7 +32,7 @@ type Props = {
   filter: any;
   day: number;
   sessions: Array<Session>;
-  navigator: StackNavigator;
+  navigation: StackNavigator;
   logOut: () => void;
   switchDay: (day: number) => void;
 };
@@ -76,14 +76,14 @@ class GeneralScheduleView extends Component {
           day={1}
           sessions={this.props.sessions}
           renderEmptyList={this.renderEmptyList}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
         <ScheduleListView
           title="Day 2"
           day={2}
           sessions={this.props.sessions}
           renderEmptyList={this.renderEmptyList}
-          navigator={this.props.navigator}
+          navigation={this.props.navigation}
         />
       </ListContainer>
     );
@@ -117,7 +117,7 @@ class GeneralScheduleView extends Component {
 
   openFilterScreen() {
     if (Platform.OS === 'ios') {
-      this.props.navigator.push({ filter: 123 });
+      this.props.navigation.navigate('filter');
     } else {
       this._drawer && this._drawer.openDrawer();
     }

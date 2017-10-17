@@ -28,6 +28,14 @@ export const Navigator = StackNavigator({
   schedule: { screen: MyScheduleView },
   notifications: { screen: SMNotificationsView },
   info: { screen: SMInfoView },
+  allSessions: { screen: SessionsCarousel },
+  filter: { screen: FilterScreen },
+  friend: { screen: FriendsScheduleView },
+  login: { screen: LoginModal },
+  share: { screen: SharingSettingsModal },
+  shareSettings: { screen: SharingSettingsScreen },
+  rate: { screen: RatingScreen },
+  notices: { screen: ThirdPartyNotices },
 }, {
   navigationOptions: {
     tabBarVisible: false,

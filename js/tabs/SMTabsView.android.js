@@ -29,7 +29,7 @@ class SMTabsView extends Component<{}> {
   props: {
     tab: Tab;
     onTabSelect: (tab: Tab) => void;
-    navigator: StackNavigator;
+    navigation: StackNavigator;
   };
 
   constructor(props) {
@@ -150,7 +150,7 @@ class SMTabsView extends Component<{}> {
       case 'schedule':
         return (
           <GeneralScheduleView
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
           />
         );
 

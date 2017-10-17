@@ -44,7 +44,7 @@ class SMTabsView extends Component {
           icon={scheduleIcon}
           selectedIcon={scheduleIconSelected}>
           <GeneralScheduleView
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
           />
         </TabBarIOS.Item>
         <TabBarIOS.Item
