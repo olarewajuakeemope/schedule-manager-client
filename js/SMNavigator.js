@@ -8,10 +8,6 @@ import PropTypes from 'prop-types';
 import { StackNavigator, addNavigationHelpers, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import SMTabsView from './tabs/SMTabsView';
-import SMMapView from './tabs/maps/SMMapView';
-import MyScheduleView from './tabs/schedule/MyScheduleView';
-import SMInfoView from './tabs/info/SMInfoView';
-import SMNotificationsView from './tabs/notifications/SMNotificationsView';
 
 import FriendsScheduleView from './tabs/schedule/FriendsScheduleView';
 import FilterScreen from './filter/FilterScreen';
@@ -21,13 +17,10 @@ import SharingSettingsModal from './tabs/schedule/SharingSettingsModal';
 import SharingSettingsScreen from './tabs/schedule/SharingSettingsScreen';
 import ThirdPartyNotices from './tabs/info/ThirdPartyNotices';
 import RatingScreen from './rating/RatingScreen';
+import { switchTab } from './actions';
 
 export const Navigator = StackNavigator({
   home: { screen: SMTabsView },
-  map: { screen: SMMapView },
-  mySchedule: { screen: MyScheduleView },
-  notifications: { screen: SMNotificationsView },
-  info: { screen: SMInfoView },
   allSessions: { screen: SessionsCarousel },
   filter: { screen: FilterScreen },
   friend: { screen: FriendsScheduleView },
@@ -71,12 +64,24 @@ class SMNavigator extends Component<{}> {
   }
 
   handleBackButton = () => {
-    const { dispatch, nav } = this.props;
-    if (nav.index === 0) {
-      return false;
+    for (let i = this._handlers.length - 1; i >= 0; i--) {
+      if (this._handlers[i]()) {
+        return true;
+      }
     }
-    dispatch(NavigationActions.back());
-    return true;
+
+    const { dispatch, nav } = this.props;
+    if (nav.index > 0) {
+      dispatch(NavigationActions.back());
+      return true;
+    }
+
+    if (this.props.tab !== 'schedule') {
+      this.props.dispatch(switchTab('schedule'));
+      return true;
+    }
+
+    return false;
   }
 
   render() {

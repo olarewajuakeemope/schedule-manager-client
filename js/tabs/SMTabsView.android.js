@@ -59,8 +59,8 @@ class SMTabsView extends Component<{}> {
 
   onTabSelect(tab: Tab) {
     if (this.props.tab !== tab) {
-      // this.props.onTabSelect(tab);
-      this.props.navigation.navigate(tab);
+      this.props.onTabSelect(tab);
+      // this.props.navigation.navigate(tab);
     }
     this.refs.drawer.closeDrawer();
   }
@@ -79,7 +79,7 @@ class SMTabsView extends Component<{}> {
       : require('./schedule/img/schedule-icon-2-active.png');
     var accountItem, mySMItem, loginItem;
 
-    if (this.props.user.isLoggedIn) {
+    if (!this.props.user.isLoggedIn) {
       var name = this.props.user.name || '';
       accountItem = (
         <View>
@@ -94,8 +94,8 @@ class SMTabsView extends Component<{}> {
       mySMItem = (
         <MenuItem
           title="My SM"
-          selected={this.props.tab === 'mySchedule'}
-          onPress={this.onTabSelect.bind(this, 'mySchedule')}
+          selected={this.props.tab === 'my-schedule'}
+          onPress={this.onTabSelect.bind(this, 'my-schedule')}
           icon={require('./schedule/img/my-schedule-icon.png')}
           selectedIcon={require('./schedule/img/my-schedule-icon-active.png')}
         />
