@@ -1,51 +1,81 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * @providesModule SMInfoView
  * @flow
  */
 
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+'use strict';
 
-export default class jobs extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
-  }
+import React from 'react';
+import { View } from 'react-native';
+import Relay from 'react-relay/classic';
+import CommonQuestions from './CommonQuestions';
+import LinksList from './LinksList';
+import ListContainer from '../../common/ListContainer';
+import PureListView from '../../common/PureListView';
+import WiFiDetails from './WiFiDetails';
+
+
+const POLICIES_LINKS = [{
+  title: 'Terms of Service',
+  url: 'https://m.facebook.com/terms?_rdr',
+}, {
+  title: 'Data Policy',
+  url: 'https://m.facebook.com/policies?_rdr',
+}, {
+  title: 'Code of Conduct',
+  url: 'https://www.fbf8.com/code-of-conduct',
+}];
+
+function SMInfoView() {
+  return (
+    <ListContainer
+      title="Information"
+      backgroundImage={require('./img/info-background.png')}
+      backgroundColor={'#47BFBF'}>
+      <InfoList />
+    </ListContainer>
+  );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+function InfoList({viewer: {config, faqs, pages}, ...props}) {
+  return (
+    <PureListView
+      renderEmptyList={() => (
+        <View>
+          <WiFiDetails
+            network={config.wifiNetwork}
+            password={config.wifiPassword}
+          />
+          <CommonQuestions faqs={faqs} />
+          <LinksList title="Facebook pages" links={pages} />
+          <LinksList title="Facebook policies" links={POLICIES_LINKS} />
+        </View>
+      )}
+      {...(props: any /* flow can't guarantee the shape of props */)}
+    />
+  );
+}
+
+InfoList = Relay.createContainer(InfoList, {
+  fragments: {
+    viewer: () => Relay.QL`
+      fragment on User {
+        config {
+          wifiNetwork
+          wifiPassword
+        }
+        faqs {
+          question
+          answer
+        }
+        pages {
+          title
+          url
+          logo
+        }
+      }
+    `,
   },
 });
+
+module.exports = SMInfoView;

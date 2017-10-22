@@ -14,8 +14,8 @@ import {
   View
 } from 'react-native';
 import { connect } from 'react-redux';
-import DOCColors from '../common/DOCColors';
-import { Text } from '../common/DOCText';
+import SMColors from '../common/SMColors';
+import { Text } from '../common/SMText';
 import LoginButton from '../common/LoginButton';
 
 import { skipLogin } from '../actions';
@@ -118,25 +118,25 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: Math.round(74 * scale),
-    color: DOCColors.darkText,
+    color: SMColors.darkText,
     backgroundColor: 'transparent',
   },
   h2: {
     textAlign: 'center',
     fontSize: 17,
-    color: DOCColors.darkText,
+    color: SMColors.darkText,
     marginVertical: 20,
   },
   h3: {
     fontSize: 12,
     textAlign: 'center',
-    color: DOCColors.lightText,
+    color: SMColors.lightText,
     letterSpacing: 1,
   },
   loginComment: {
     marginBottom: 14,
     fontSize: 12,
-    color: DOCColors.darkText,
+    color: SMColors.darkText,
     textAlign: 'center',
   },
   skip: {

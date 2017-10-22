@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import SMNavigator from './SMNavigator';
+import LoginScreen from './login/LoginScreen';
 
 class SMApp extends Component<{}> {
   componentDidMount() {
@@ -29,6 +30,9 @@ class SMApp extends Component<{}> {
   }
 
   render() {
+    if (!this.props.isLoggedIn) {
+      return <LoginScreen />;
+    }
     return (
       <View style={styles.container}>
         <StatusBar

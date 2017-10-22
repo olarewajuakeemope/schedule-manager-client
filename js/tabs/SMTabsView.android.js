@@ -79,7 +79,7 @@ class SMTabsView extends Component<{}> {
       : require('./schedule/img/schedule-icon-2-active.png');
     var accountItem, mySMItem, loginItem;
 
-    if (!this.props.user.isLoggedIn) {
+    if (this.props.user.isLoggedIn) {
       var name = this.props.user.name || '';
       accountItem = (
         <View>

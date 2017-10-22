@@ -3,7 +3,7 @@
  */
 
 import React, { Component } from 'react';
-import { TabBarIOS, View } from 'react-native';
+import { TabBarIOS } from 'react-native';
 import { connect } from 'react-redux';
 import { StackNavigator } from 'react-navigation';
 
@@ -69,7 +69,7 @@ class SMTabsView extends Component {
           onPress={this.onTabSelect.bind(this, 'map')}
           icon={require('./maps/img/maps-icon.png')}
           selectedIcon={require('./maps/img/maps-icon-active.png')}>
-          <View />
+          <SMMapView />
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Notifications"
@@ -78,7 +78,7 @@ class SMTabsView extends Component {
           badge={this.props.notificationsBadge || null}
           icon={require('./notifications/img/notifications-icon.png')}
           selectedIcon={require('./notifications/img/notifications-icon-active.png')}>
-          <View />
+          <SMNotificationsView navigation={this.props.navigation} />
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Info"
@@ -86,7 +86,7 @@ class SMTabsView extends Component {
           onPress={this.onTabSelect.bind(this, 'info')}
           icon={require('./info/img/info-icon.png')}
           selectedIcon={require('./info/img/info-icon-active.png')}>
-          <View />
+          <SMInfoView navigation={this.props.navigation} />
         </TabBarIOS.Item>
       </TabBarIOS>
     );

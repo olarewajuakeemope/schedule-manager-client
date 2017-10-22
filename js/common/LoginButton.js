@@ -57,9 +57,9 @@ class LoginButton extends React.Component {
   }
 
   async logIn() {
-    const {dispatch, onLoggedIn} = this.props;
+    const { dispatch, onLoggedIn } = this.props;
 
-    this.setState({isLoading: true});
+    this.setState({ isLoading: true });
     try {
       await Promise.race([
         dispatch(logInWithFacebook(this.props.source)),
@@ -73,7 +73,7 @@ class LoginButton extends React.Component {
       }
       return;
     } finally {
-      this._isMounted && this.setState({isLoading: false});
+      this._isMounted && this.setState({ isLoading: false });
     }
 
     onLoggedIn && onLoggedIn();
