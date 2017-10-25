@@ -3,7 +3,7 @@
  */
 'use strict';
 
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator, NavigationActions } from 'react-navigation';
 var SMColors = require('../../common/SMColors');
 var React = require('React');
 var StyleSheet = require('StyleSheet');
@@ -61,7 +61,7 @@ class SharingSettingsScreen extends React.Component {
             icon: require('../../common/img/back.png'),
             title: 'Back',
             layout: 'icon',
-            onPress: () => this.props.navigator.pop(),
+            onPress: () => this.props.dispatch(NavigationActions.back()),
           }}
           rightItem={{
             icon: require('./img/logout.png'),

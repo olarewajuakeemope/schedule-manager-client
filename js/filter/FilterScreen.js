@@ -3,6 +3,8 @@
  */
 'use strict';
 
+import { NavigationActions } from 'react-navigation';
+
 const React = require('react');
 const SMHeader = require('../common/SMHeader');
 const SMColors = require('../common/SMColors');
@@ -29,7 +31,7 @@ class FilterScreen extends React.Component {
     topics: Array<string>;
     selectedTopics: {[id: string]: boolean};
     dispatch: (action: any) => void;
-    navigator: any;
+    navigation: any;
     onClose: ?() => void;
   };
   state: {
@@ -85,7 +87,7 @@ class FilterScreen extends React.Component {
     );
 
     let leftItem, rightItem;
-    if (this.props.navigator) {
+    if (this.props.navigation) {
       leftItem = {title: 'Cancel', onPress: this.close};
     }
     if (selectedAnyTopics) {
@@ -120,14 +122,14 @@ class FilterScreen extends React.Component {
   }
 
   toggleTopic(topic: string, value: boolean) {
-    var selectedTopics = {...this.state.selectedTopics};
+    var selectedTopics = { ...this.state.selectedTopics };
     var value = !selectedTopics[topic];
     if (value) {
       selectedTopics[topic] = true;
     } else {
       delete selectedTopics[topic];
     }
-    this.setState({selectedTopics});
+    this.setState({ selectedTopics });
   }
 
   applyFilter() {
@@ -136,9 +138,9 @@ class FilterScreen extends React.Component {
   }
 
   close() {
-    const {navigator, onClose} = this.props;
-    if (navigator) {
-      requestAnimationFrame(() => navigator.pop());
+    const { navigation, onClose } = this.props;
+    if (navigation) {
+      requestAnimationFrame(() => this.props.dispatch(NavigationActions.back()));
     }
     if (onClose) {
       onClose();
@@ -146,7 +148,7 @@ class FilterScreen extends React.Component {
   }
 
   clearFilter() {
-    this.setState({selectedTopics: {}});
+    this.setState({ selectedTopics: {} });
   }
 }
 
