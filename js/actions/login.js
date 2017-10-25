@@ -56,15 +56,20 @@ async function queryFacebookAPI(path, ...args): Promise {
 }
 
 async function _logInWithFacebook(source: ?string): Promise<Array<Action>> {
-  await ParseFacebookLogin('public_profile,email,user_friends');
-  const profile = await queryFacebookAPI('/me', {fields: 'name,email'});
+  // await ParseFacebookLogin('public_profile,email,user_friends');
+  // const profile = await queryFacebookAPI('/me', {fields: 'name,email'});
+  const profile = {
+    id: 'sdfghjkuytrewertjmnhgfd',
+    name: 'Olarewaju Opeyemi',
+    email: 'olarewajuakeemopeyemi@gmail.com',
+  };
 
-  const user = await Parse.User.currentAsync();
+  const user = await Parse.User.logIn("user", "password");
   user.set('facebook_id', profile.id);
   user.set('name', profile.name);
   user.set('email', profile.email);
   await user.save();
-  await updateInstallation({user});
+  // await updateInstallation({user});
 
   const action = {
     type: 'LOGGED_IN',
@@ -105,16 +110,16 @@ function skipLogin(): Action {
 }
 
 function logOut(): ThunkAction {
-  // return (dispatch) => {
-  //   Parse.User.logOut();
-  //   FacebookSDK.logout();
-  //   updateInstallation({user: null, channels: []});
+  return (dispatch) => {
+    Parse.User.logOut();
+    // FacebookSDK.logout();
+    // updateInstallation({user: null, channels: []});
 
-  //   // TODO: Make sure reducers clear their state
-  //   return dispatch({
-  //     type: 'LOGGED_OUT',
-  //   });
-  // };
+    // TODO: Make sure reducers clear their state
+    return dispatch({
+      type: 'LOGGED_OUT',
+    });
+  };
 }
 
 function logOutWithPrompt(): ThunkAction {
