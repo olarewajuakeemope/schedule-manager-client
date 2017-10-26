@@ -1,51 +1,70 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
  * @flow
  */
+'use strict';
 
 import React, { Component } from 'react';
 import {
-  AppRegistry,
+  View,
   StyleSheet,
-  Text,
-  View
+  InteractionManager,
+  WebView,
 } from 'react-native';
+import SMHeader from '../../common/SMHeader';
 
-export default class jobs extends Component {
+class ThirdPartyNotices extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
+        <SMHeader
+          title="Third Party Notices"
+          style={styles.header}
+          leftItem={{
+            icon: require('../../common/img/back_white.png'),
+            title: 'Back',
+            layout: 'icon',
+            onPress: () => this.props.navigator.pop(),
+          }}
+        />
+        <Loading>
+          <WebView
+            style={styles.webview}
+            source={{uri: 'file:///android_res/raw/third_party_notices.html'}}
+          />
+        </Loading>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
+class Loading extends React.Component {
+  state = {
+    loaded: false,
+  };
+
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => this.setState({loaded: true}));
+  }
+
+  render() {
+    if (this.state.loaded) {
+      return React.Children.only(this.props.children);
+    }
+    return null;
+  }
+}
+
+var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'white',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  header: {
+    backgroundColor: '#47BFBF',
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  webview: {
+    flex: 1,
   },
 });
+
+module.exports = ThirdPartyNotices;

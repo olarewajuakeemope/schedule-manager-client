@@ -1,51 +1,81 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
  * @flow
  */
+'use strict';
 
 import React, { Component } from 'react';
 import {
-  AppRegistry,
+  Image,
   StyleSheet,
-  Text,
-  View
+  ScrollView,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
-export default class jobs extends Component {
+class ZoomableImage extends Component {
+  props: {
+    url: string;
+  };
+  state: {
+    lastTapTimestamp: number;
+    isZoomed: boolean;
+  };
+
+  constructor() {
+    super();
+    this.state = {
+      lastTapTimestamp: 0,
+      isZoomed: false,
+    };
+
+    (this: any).onZoomChanged = this.onZoomChanged.bind(this);
+    (this: any).toggleZoom = this.toggleZoom.bind(this);
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+      <ScrollView
+        ref="zoomable_scroll"
+        onScroll={this.onZoomChanged}
+        scrollEventThrottle={100}
+        scrollsToTop={false}
+        alwaysBounceVertical={false}
+        alwaysBounceHorizontal={false}
+        automaticallyAdjustContentInsets={false}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        maximumZoomScale={4}
+        centerContent={true}
+        contentContainerStyle={{flex: 1}}>
+        <TouchableWithoutFeedback onPress={this.toggleZoom}>
+          <Image
+            style={styles.image}
+            source={{uri: this.props.url}}
+          />
+        </TouchableWithoutFeedback>
+      </ScrollView>
     );
+  }
+
+  toggleZoom(e: any) {
+    var timestamp = new Date().getTime();
+    if (timestamp - this.state.lastTapTimestamp <= 500) {
+      var {locationX, locationY} = e.nativeEvent;
+      var size = this.state.isZoomed ? {width: 10000, height: 10000} : {width: 0, height: 0};
+      this.refs.zoomable_scroll.scrollResponderZoomTo({x: locationX, y: locationY, ...size});
+    }
+    this.setState({lastTapTimestamp: timestamp});
+  }
+
+  onZoomChanged(e: any) {
+    this.setState({isZoomed: e.nativeEvent.zoomScale > 1});
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
+var styles = StyleSheet.create({
+  image: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+    resizeMode: Image.resizeMode.contain,
   },
 });
+
+module.exports = ZoomableImage;

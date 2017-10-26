@@ -42,7 +42,7 @@ class SMApp extends Component<{}> {
     AppState.removeEventListener('change', this.handleAppStateChange);
   }
 
-  handleAppStateChange(appState) {
+  handleAppStateChange = (appState) => {
     if (appState === 'active') {
       this.props.dispatch(loadSessions());
       this.props.dispatch(loadNotifications());

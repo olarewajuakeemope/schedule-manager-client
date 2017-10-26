@@ -1,51 +1,116 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
  * @flow
  */
+'use strict';
 
 import React, { Component } from 'react';
 import {
-  AppRegistry,
+  View,
+  Image,
+  Linking,
   StyleSheet,
-  Text,
-  View
 } from 'react-native';
+import SMColors from '../../common/SMColors';
+import ItemsWithSeparator from '../../common/ItemsWithSeparator';
+import Section from './Section';
+import SMTouchable from '../../common/SMTouchable';
+import { Text } from '../../common/SMText';
 
-export default class jobs extends Component {
+class LinksList extends React.Component {
+  props: {
+    title: string;
+    links: Array<{
+      logo?: ?string;
+      title: string;
+      url?: string;
+      onPress?: () => void;
+    }>;
+  };
+
   render() {
+    let content = this.props.links.map(
+      (link) => <Row link={link} key={link.title} />
+    );
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+      <Section title={this.props.title}>
+        <ItemsWithSeparator separatorStyle={styles.separator}>
+          {content}
+        </ItemsWithSeparator>
+      </Section>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
+class Row extends Component {
+  props: {
+    link: {
+      logo: ?string;
+      title: string;
+      url?: string;
+      onPress?: () => void;
+    };
+  };
+
+  render() {
+    var {logo, title} = this.props.link;
+    var image = logo && <Image style={styles.picture} source={{uri: logo}} />;
+    return (
+      <SMTouchable onPress={this.handlePress.bind(this)}>
+        <View style={styles.row}>
+          {image}
+          <Text style={styles.title} numberOfLines={2}>
+            {title}
+          </Text>
+          <Image source={require('../../common/img/disclosure.png')} />
+        </View>
+      </SMTouchable>
+    );
+  }
+
+  handlePress() {
+    var {url, onPress} = this.props.link;
+    if (onPress) {
+      onPress();
+    }
+    if (url) {
+      Linking.openURL(url);
+    }
+  }
+}
+
+const IMAGE_SIZE = 44;
+
+var styles = StyleSheet.create({
+  separator: {
+    marginHorizontal: 20,
+  },
+  row: {
+    flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: 'white',
+    height: 60,
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  picture: {
+    width: IMAGE_SIZE,
+    height: IMAGE_SIZE,
+    borderRadius: IMAGE_SIZE / 2,
+    marginRight: 16,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  title: {
+    fontSize: 17,
+    color: SMColors.darkText,
+    flex: 1,
+  },
+  button: {
+    padding: 10,
+  },
+  like: {
+    letterSpacing: 1,
+    color: SMColors.actionText,
+    fontSize: 12,
   },
 });
+
+module.exports = LinksList;

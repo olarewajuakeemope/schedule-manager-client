@@ -1,51 +1,103 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
  * @flow
  */
+'use strict';
 
 import React, { Component } from 'react';
 import {
-  AppRegistry,
   StyleSheet,
-  Text,
-  View
+  View,
+  TouchableHighlight,
 } from 'react-native';
+import moment from 'moment';
+import { connect } from 'react-redux';
+import SMColors from '../../common/SMColors';
+import SMSessionCell from '../schedule/SMSessionCell';
+import findSessionByURI from './findSessionByURI';
+import { Text } from '../../common/SMText';
 
-export default class jobs extends Component {
+
+class NotificationCell extends Component {
   render() {
+    var attachment;
+    if (this.props.session) {
+      attachment = (
+        <SMSessionCell
+          style={styles.session}
+          session={this.props.session}
+          showStartEndTime={true}
+        />
+      );
+    } else if (this.props.notification.url) {
+      attachment = <Text style={styles.url}>{this.props.notification.url}</Text>;
+    }
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+      <TouchableHighlight onPress={this.props.onPress}>
+        <View style={[styles.cell, !this.props.isSeen && styles.unseen]}>
+          <Text style={styles.text}>
+            {this.props.notification.text}
+          </Text>
+          {attachment}
+          <View style={styles.footer}>
+            <Text style={styles.time}>
+              {moment(this.props.notification.time).fromNow()}
+            </Text>
+          </View>
+        </View>
+      </TouchableHighlight>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
+var styles = StyleSheet.create({
+  cell: {
+    padding: 15,
+    backgroundColor: 'white',
+  },
+  unseen: {
+    paddingLeft: 12,
+    borderLeftWidth: 3,
+    borderLeftColor: '#4D99EF',
+  },
+  text: {
+    fontSize: 15,
+    lineHeight: 22,
+    marginBottom: 10,
+  },
+  session: {
+    paddingVertical: undefined,
+    paddingHorizontal: undefined,
+    paddingLeft: undefined,
+    padding: 10,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: SMColors.cellBorder,
+    // overflow: 'hidden',
+    shadowOffset: {width: 1, height: 1},
+    shadowColor: '#eee',
+    shadowOpacity: 1,
+  },
+  footer: {
+    flexDirection: 'row',
+  },
+  url: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    color: SMColors.actionText,
+    fontSize: 12,
+    marginBottom: 10,
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  time: {
+    color: SMColors.lightText,
+    fontSize: 12,
   },
 });
+
+function select(store, props) {
+  return {
+    session: findSessionByURI(store.sessions, props.notification.url),
+    isSeen: store.notifications.seen[props.notification.id],
+  };
+}
+
+module.exports = connect(select)(NotificationCell);

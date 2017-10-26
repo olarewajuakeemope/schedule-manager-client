@@ -1,49 +1,109 @@
 /**
  * @flow
  */
+'use strict';
 
 import React, { Component } from 'react';
 import {
-  AppRegistry,
+  View,
+  LayoutAnimation,
   StyleSheet,
-  Text,
-  View
 } from 'react-native';
+import ItemsWithSeparator from '../../common/ItemsWithSeparator';
+import Section from './Section';
+import { Text } from '../../common/SMText';
+import SMTouchable from '../../common/SMTouchable';
 
-export default class jobs extends Component {
+class CommonQuestions extends Component {
   render() {
+    let content = this.props.faqs.map(({question, answer}) =>
+      (<Row question={question} answer={answer} key={question} />)
+    );
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+      <Section title="Common questions">
+        <ItemsWithSeparator separatorStyle={styles.separator}>
+          {content}
+        </ItemsWithSeparator>
+      </Section>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
+class Row extends React.Component {
+  props: {
+    question: string;
+    answer: string;
+  };
+
+  state: {
+    expanded: boolean;
+  };
+
+  constructor() {
+    super();
+    this.state = { expanded: false };
+  }
+
+  render() {
+    var answer;
+    if (this.state.expanded) {
+      answer = (
+        <View style={styles.answer}>
+          <Text style={styles.text}>
+            {this.props.answer}
+          </Text>
+        </View>
+      );
+    }
+    return (
+      <View style={styles.row}>
+        <SMTouchable onPress={() => this.toggle()}>
+          <View style={styles.question} >
+            <Text style={styles.symbol}>
+              {this.state.expanded ? '\u2212' : '+'}
+            </Text>
+            <Text style={styles.text}>
+              {this.props.question}
+            </Text>
+          </View>
+        </SMTouchable>
+        {answer}
+      </View>
+    );
+  }
+
+  toggle() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({expanded: !this.state.expanded});
+  }
+}
+
+var styles = StyleSheet.create({
+  separator: {
+    marginHorizontal: 20,
+  },
+  question: {
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    backgroundColor: 'white',
+  },
+  symbol: {
+    fontSize: 15,
+    lineHeight: 21,
+    width: 22,
+    color: '#99A7B9',
+  },
+  answer: {
+    padding: 14,
+    paddingLeft: 20 + 22,
+  },
+  text: {
+    fontSize: 15,
+    lineHeight: 21,
+    color: '#002350',
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
+
+module.exports = CommonQuestions;

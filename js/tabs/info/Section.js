@@ -1,51 +1,52 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
  * @flow
  */
+'use strict';
 
 import React, { Component } from 'react';
 import {
-  AppRegistry,
+  View,
   StyleSheet,
-  Text,
-  View
 } from 'react-native';
+import { Text } from '../../common/SMText';
 
-export default class jobs extends Component {
+class Section extends Component {
+  props: {
+    title: string;
+    children?: any;
+    style?: any;
+  };
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
+      <View style={[styles.container, this.props.style]}>
+        <View style={styles.header}>
+          <Text style={styles.title}>
+            {this.props.title}
+          </Text>
+        </View>
+        {this.props.children}
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
+var styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
+    paddingTop: 60,
+    paddingBottom: 0,
+    backgroundColor: 'white',
+  },
+  header: {
+    flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    justifyContent: 'center',
+    marginBottom: 30,
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
   },
 });
+
+module.exports = Section;

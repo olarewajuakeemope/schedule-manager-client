@@ -9,6 +9,7 @@
 	"dependencies": {
 		"babel-relay-plugin": "^0.11.0",
 		"crc32": "^0.2.2",
+		"moment": "^2.19.1",
 		"parse": "^1.10.0",
 		"prop-types": "^15.6.0",
 		"react": "16.0.0-beta.5",

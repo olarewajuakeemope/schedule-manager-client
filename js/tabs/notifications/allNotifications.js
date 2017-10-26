@@ -1,51 +1,28 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
  * @flow
  */
+'use strict';
 
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+var { createSelector } = require('reselect');
 
-export default class jobs extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+import type {Notification} from '../../reducers/notifications';
+
+// Merges lists of notifications from server and notifications
+// received via push and makes sure there is no duplicates.
+function mergeAndSortByTime(server: Array<Notification>, push: Array<Notification>): Array<Notification> {
+  var uniquePush = push.filter((pushNotification) => {
+    var existsOnServer = server.find(
+      (serverNotification) => serverNotification.text === pushNotification.text
     );
-  }
+    return !existsOnServer;
+  });
+
+  var all = [].concat(server, uniquePush);
+  return all.sort((a, b) => b.time - a.time);
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+module.exports = createSelector(
+  (store) => store.notifications.server,
+  (store) => store.notifications.push,
+  mergeAndSortByTime
+);

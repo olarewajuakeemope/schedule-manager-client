@@ -16,7 +16,7 @@ import SMDrawerLayout from '../../common/SMDrawerLayout';
 import ScheduleListView from './ScheduleListView';
 import FilterScreen from '../../filter/FilterScreen';
 
-import {switchDay} from '../../actions';
+import { switchDay } from '../../actions';
 
 import type {Session} from '../../reducers/sessions';
 
@@ -94,7 +94,8 @@ class GeneralScheduleView extends Component {
         ref={(drawer) => { this._drawer = drawer; }}
         drawerWidth={300}
         drawerPosition="right"
-        renderNavigationView={this.renderNavigationView}>
+        renderNavigationView={this.renderNavigationView}
+      >
         {content}
       </SMDrawerLayout>
     );
@@ -128,17 +129,17 @@ class GeneralScheduleView extends Component {
 
 
 function select(store) {
-return {
-  day: store.navigation.day,
-  filter: store.filter,
-  sessions: data(store),
-};
+  return {
+    day: store.navigation.day,
+    filter: store.filter,
+    sessions: data(store),
+  };
 }
 
 function actions(dispatch) {
-return {
-  switchDay: (day) => dispatch(switchDay(day)),
-};
+  return {
+    switchDay: (day) => dispatch(switchDay(day)),
+  };
 }
 
 export default connect(select, actions)(GeneralScheduleView);
