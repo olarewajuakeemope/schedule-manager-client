@@ -5,7 +5,7 @@
 'use strict';
 
 const Parse = require('parse/react-native');
-// const FacebookSDK = require('FacebookSDK');
+import { NavigationActions } from 'react-navigation'
 const ActionSheetIOS = require('ActionSheetIOS');
 const {Platform} = require('react-native');
 const Alert = require('Alert');
@@ -112,12 +112,15 @@ function skipLogin(): Action {
 function logOut(): ThunkAction {
   return (dispatch) => {
     Parse.User.logOut();
+    dispatch(NavigationActions.navigate({
+      routeName: 'home',
+    }));
     // FacebookSDK.logout();
     // updateInstallation({user: null, channels: []});
 
     // TODO: Make sure reducers clear their state
     return dispatch({
-      type: 'LOGGED_OUT',
+      type: 'LOGGED_OUT', 
     });
   };
 }

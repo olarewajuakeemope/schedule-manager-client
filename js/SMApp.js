@@ -14,10 +14,28 @@ import {
 import { connect } from 'react-redux';
 import SMNavigator from './SMNavigator';
 import LoginScreen from './login/LoginScreen';
+import {
+  loadConfig,
+  loadMaps,
+  loadNotifications,
+  loadSessions,
+  loadFriendsSchedules,
+  loadSurveys,
+} from './actions';
+import { updateInstallation } from './actions/installation';
+
+import { version } from './env';
 
 class SMApp extends Component<{}> {
   componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange);
+    // TODO: Make this list smaller, we basically download the whole internet
+    this.props.dispatch(loadNotifications());
+    this.props.dispatch(loadMaps());
+    this.props.dispatch(loadConfig());
+    this.props.dispatch(loadSessions());
+    this.props.dispatch(loadFriendsSchedules());
+    this.props.dispatch(loadSurveys());
   }
 
   componentWillUnmount() {
@@ -26,6 +44,9 @@ class SMApp extends Component<{}> {
 
   handleAppStateChange(appState) {
     if (appState === 'active') {
+      this.props.dispatch(loadSessions());
+      this.props.dispatch(loadNotifications());
+      this.props.dispatch(loadSurveys());
     }
   }
 

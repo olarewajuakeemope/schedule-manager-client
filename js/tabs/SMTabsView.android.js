@@ -195,10 +195,11 @@ class SMTabsView extends Component<{}> {
         ref="drawer"
         drawerWidth={300}
         drawerPosition="left"
-        renderNavigationView={this.renderNavigationView}>
+        renderNavigationView={this.renderNavigationView}
+      >
         <View style={styles.content} key={this.props.tab}>
           {this.renderContent()}
-      </View>
+        </View>
       </SMDrawerLayout>
     );
   }
