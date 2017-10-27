@@ -1,4 +1,4 @@
-package com.client;
+package com.schedulemanager;
 
 import android.app.Application;
 
