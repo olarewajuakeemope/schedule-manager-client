@@ -146,7 +146,7 @@ function logOutWithPrompt(): ThunkAction {
     } else {
       Alert.alert(
         `Hi, ${name}`,
-        'Log out from F8?',
+        'Log out from Schedule Manager?',
         [
           { text: 'Cancel' },
           { text: 'Log out', onPress: () => dispatch(logOut()) },
