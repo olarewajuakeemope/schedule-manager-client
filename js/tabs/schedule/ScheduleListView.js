@@ -86,7 +86,7 @@ class ScheduleListView extends React.Component {
   }
 
   openSession(session: Session, day: number) {
-    this.props.navigator.push({
+    this.props.navigation.navigate('allSessions', { 
       day,
       session,
       allSessions: this.state.todaySessions,

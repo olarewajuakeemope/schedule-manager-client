@@ -29,12 +29,9 @@ var {addToSchedule, removeFromScheduleWithPrompt} = require('../../actions');
 class SMSessionDetails extends React.Component{
   mixins = [Subscribable.Mixin];
 
-  getInitialState() {
-    return {
-      scrollTop: new Animated.Value(0),
-    };
-  }
-
+  state = {
+    scrollTop: new Animated.Value(0),
+  };
   render() {
     var speakersProfiles = this.props.session.speakers.map(
       (speaker) => (
@@ -144,175 +141,175 @@ class SMSessionDetails extends React.Component{
     );
   }
 
-  toggleAdded() {
-    if (this.props.isAddedToSchedule) {
-      this.props.removeFromScheduleWithPrompt();
-    } else {
-      this.addToSchedule();
-    }
+toggleAdded() {
+  if (this.props.isAddedToSchedule) {
+    this.props.removeFromScheduleWithPrompt();
+  } else {
+    this.addToSchedule();
   }
+}
 
-  addToSchedule() {
-    if (!this.props.isLoggedIn) {
-      this.props.navigator.push({
-        login: true, // TODO: Proper route
-        callback: this.addToSchedule,
-      });
-    } else {
-      this.props.addToSchedule();
-      if (this.props.sharedSchedule === null) {
-        setTimeout(() => this.props.navigator.push({share: true}), 1000);
-      }
+addToSchedule() {
+  if (!this.props.isLoggedIn) {
+    this.props.navigator.push({
+      login: true, // TODO: Proper route
+      callback: this.addToSchedule,
+    });
+  } else {
+    this.props.addToSchedule();
+    if (this.props.sharedSchedule === null) {
+      setTimeout(() => this.props.navigator.push({share: true}), 1000);
     }
   }
+}
 };
 
 class Section extends React.Component {
-  props: {
-    title?: string;
-    children?: any;
-  };
+props: {
+  title?: string;
+  children?: any;
+};
 
-  render() {
-    var {children} = this.props;
-    if (React.Children.count(children) === 0) {
-      return null;
-    }
-    var header;
-    if (this.props.title) {
-      header = (
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>
-            {this.props.title.toUpperCase()}
-          </Text>
-          <LinearGradient
-            start={[0, 0]} end={[1, 0]}
-            colors={['#E1E1E1', 'white']}
-            style={styles.line}
-          />
-        </View>
-      );
-    }
-    return (
-      <View style={styles.section}>
-        {header}
-        {children}
+render() {
+  var {children} = this.props;
+  if (React.Children.count(children) === 0) {
+    return null;
+  }
+  var header;
+  if (this.props.title) {
+    header = (
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionTitle}>
+          {this.props.title.toUpperCase()}
+        </Text>
+        <LinearGradient
+          start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 0 }}
+          colors={['#E1E1E1', 'white']}
+          style={styles.line}
+        />
       </View>
     );
   }
+  return (
+    <View style={styles.section}>
+      {header}
+      {children}
+    </View>
+  );
+}
 }
 
 var PADDING = 15;
 
 var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  contentContainer: {
-    padding: 26,
-    paddingBottom: 60,
-  },
-  miniHeader: {
-    backgroundColor: 'white',
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'absolute',
-    left: 12,
-    top: 0,
-    right: 12,
-    paddingVertical: 9,
-    borderBottomWidth: 1 / PixelRatio.get(),
-    borderBottomColor: '#E1E1E1',
-  },
-  miniTitle: {
-    fontSize: 12,
-    flex: 1,
-    color: SMColors.darkText,
-  },
-  location: {
-    fontSize: 12,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    letterSpacing: -1,
-    lineHeight: 32,
-    marginVertical: 20,
-  },
-  time: {
-    color: SMColors.lightText,
-    marginBottom: 20,
-  },
-  description: {
-    fontSize: 17,
-    lineHeight: 25,
-  },
-  topics: {
-    fontSize: 12,
-    color: SMColors.lightText,
-  },
-  section: {
-    marginTop: 30,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    marginBottom: 15,
-    alignItems: 'center',
-  },
-  sectionTitle: {
-    color: SMColors.lightText,
-    marginRight: 14,
-    fontSize: 12,
-  },
-  line: {
-    height: 1 / PixelRatio.get(),
-    backgroundColor: SMColors.lightText,
-    flex: 1,
-  },
-  actions: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    borderTopWidth: 1,
-    margin: 10,
-    paddingVertical: 10,
-    borderTopColor: '#eeeeee',
-    backgroundColor: 'white',
-  },
-  shareButton: {
-    backgroundColor: 'transparent',
-    padding: PADDING,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-  }
+container: {
+  flex: 1,
+  backgroundColor: 'white',
+},
+contentContainer: {
+  padding: 26,
+  paddingBottom: 60,
+},
+miniHeader: {
+  backgroundColor: 'white',
+  flexDirection: 'row',
+  alignItems: 'center',
+  position: 'absolute',
+  left: 12,
+  top: 0,
+  right: 12,
+  paddingVertical: 9,
+  borderBottomWidth: 1 / PixelRatio.get(),
+  borderBottomColor: '#E1E1E1',
+},
+miniTitle: {
+  fontSize: 12,
+  flex: 1,
+  color: SMColors.darkText,
+},
+location: {
+  fontSize: 12,
+},
+title: {
+  fontSize: 24,
+  fontWeight: 'bold',
+  letterSpacing: -1,
+  lineHeight: 32,
+  marginVertical: 20,
+},
+time: {
+  color: SMColors.lightText,
+  marginBottom: 20,
+},
+description: {
+  fontSize: 17,
+  lineHeight: 25,
+},
+topics: {
+  fontSize: 12,
+  color: SMColors.lightText,
+},
+section: {
+  marginTop: 30,
+},
+sectionHeader: {
+  flexDirection: 'row',
+  marginBottom: 15,
+  alignItems: 'center',
+},
+sectionTitle: {
+  color: SMColors.lightText,
+  marginRight: 14,
+  fontSize: 12,
+},
+line: {
+  height: 1 / PixelRatio.get(),
+  backgroundColor: SMColors.lightText,
+  flex: 1,
+},
+actions: {
+  position: 'absolute',
+  left: 0,
+  right: 0,
+  bottom: 0,
+  borderTopWidth: 1,
+  margin: 10,
+  paddingVertical: 10,
+  borderTopColor: '#eeeeee',
+  backgroundColor: 'white',
+},
+shareButton: {
+  backgroundColor: 'transparent',
+  padding: PADDING,
+  position: 'absolute',
+  right: 0,
+  top: 0,
+}
 });
 
 function select(store, props) {
-  const sessionID = props.session.id;
-  const friendsGoing = store.friendsSchedules.filter((friend) => friend.schedule[sessionID]);
-  const map = store.maps.find(({name}) => name === props.session.location);
+const sessionID = props.session.id;
+const friendsGoing = store.friendsSchedules.filter((friend) => friend.schedule[sessionID]);
+const map = store.maps.find(({name}) => name === props.session.location);
 
-  return {
-    isAddedToSchedule: !!store.schedule[props.session.id],
-    isLoggedIn: store.user.isLoggedIn,
-    sharedSchedule: store.user.sharedSchedule,
-    sessionURLTemplate: store.config.sessionURLTemplate,
-    topics: store.topics,
-    friendsGoing,
-    map,
-  };
+return {
+  isAddedToSchedule: !!store.schedule[props.session.id],
+  isLoggedIn: store.user.isLoggedIn,
+  sharedSchedule: store.user.sharedSchedule,
+  sessionURLTemplate: store.config.sessionURLTemplate,
+  topics: store.topics,
+  friendsGoing,
+  map,
+};
 }
 
 function actions(dispatch, props) {
-  let id = props.session.id;
-  return {
-    addToSchedule: () => dispatch(addToSchedule(id)),
-    removeFromScheduleWithPrompt:
-      () => dispatch(removeFromScheduleWithPrompt(props.session)),
-  };
+let id = props.session.id;
+return {
+  addToSchedule: () => dispatch(addToSchedule(id)),
+  removeFromScheduleWithPrompt:
+    () => dispatch(removeFromScheduleWithPrompt(props.session)),
+};
 }
 
 module.exports = connect(select, actions)(SMSessionDetails);

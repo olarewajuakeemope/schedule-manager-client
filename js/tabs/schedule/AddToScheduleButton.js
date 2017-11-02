@@ -101,7 +101,7 @@ class AddToScheduleButton extends React.Component {
         activeOpacity={0.9}
         style={[styles.container, this.props.style]}>
         <LinearGradient
-          start={[0.5, 1]} end={[1, 1]}
+          start={{ x: 0.5, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
           colors={colors}
           collapsable={false}
           style={styles.button}>

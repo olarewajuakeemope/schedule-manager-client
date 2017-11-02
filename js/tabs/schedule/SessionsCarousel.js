@@ -3,29 +3,30 @@
  */
 'use strict';
 
+import React, { Component } from 'react';
 import { StackNavigator } from 'react-navigation';
-const Parse = require('parse/react-native');
-// const {AppEventsLogger} = require('react-native-fbsdk');
-const React = require('react');
-const SMSessionDetails = require('./SMSessionDetails');
-const SMPageControl = require('../../common/SMPageControl');
-const SMHeader = require('../../common/SMHeader');
-const StyleSheet = require('../../common/SMStyleSheet');
-const Platform = require('Platform');
-const formatTime = require('./formatTime');
-const Carousel = require('../../common/Carousel');
+import Parse from 'parse/react-native';
+import {
+  Text,
+  View,
+  Platform,
+} from 'react-native';
+import {connect} from 'react-redux';
+// import {AppEventsLogger} from 'react-native-fbsdk';
+import SMSessionDetails from './SMSessionDetails';
+import SMPageControl from '../../common/SMPageControl';
+import SMHeader from '../../common/SMHeader';
+import formatTime from './formatTime';
+import Carousel from '../../common/Carousel';
 
-const {connect} = require('react-redux');
-const {loadFriendsSchedules, shareSession} = require('../../actions');
+import {loadFriendsSchedules, shareSession} from '../../actions';
 
 import type {Dispatch} from '../../actions/types';
 
-const {
-  Text,
-  View,
-} = require('react-native');
 
 import type {Session} from '../../reducers/sessions';
+
+const StyleSheet = require('../../common/SMStyleSheet');
 
 type Context = {
   rowIndex: number; // TODO: IndexWithinSection
@@ -40,7 +41,7 @@ type Props = {
   dispatch: Dispatch;
 };
 
-class SessionsCarusel extends React.Component {
+class SessionsCarusel extends Component {
   props: Props;
   state: {
     day: number;
@@ -53,11 +54,12 @@ class SessionsCarusel extends React.Component {
   constructor(props: Props) {
     super(props);
 
+    const { params } = this.props.navigation.state;
     var flatSessionsList = [];
     var contexts: Array<Context> = [];
-    var allSessions = this.props.allSessions;
+    var allSessions = params.allSessions;
     if (!allSessions) {
-      const {session} = this.props;
+      const {session} = params;
       allSessions = {
         [formatTime(session.startTime)]: {[session.id]: session}
       };
@@ -79,14 +81,14 @@ class SessionsCarusel extends React.Component {
       }
     }
 
-    const selectedIndex = flatSessionsList.findIndex((s) => s.id === this.props.session.id);
+    const selectedIndex = flatSessionsList.findIndex((s) => s.id === this.props.navigation.state.params.session.id);
     if (selectedIndex === -1) {
-      console.log(this.props.session);
+      console.log(this.props.navigation.state.params.session);
       console.log(flatSessionsList);
     }
 
     this.state = {
-      day: this.props.session.day,
+      day: this.props.navigation.state.params.session.day,
       count: flatSessionsList.length,
       selectedIndex,
       flatSessionsList,
@@ -145,7 +147,7 @@ class SessionsCarusel extends React.Component {
     return (
       <SMSessionDetails
         style={styles.card}
-        navigator={this.props.navigation}
+        navigation={this.props.navigation}
         session={this.state.flatSessionsList[index]}
         onShare={this.shareCurrentSession}
       />
@@ -163,7 +165,7 @@ class SessionsCarusel extends React.Component {
   }
 
   dismiss() {
-    this.props.navigation.pop();
+    this.props.navigation.goBack();
   }
 
   handleIndexChange(selectedIndex: number) {
