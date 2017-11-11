@@ -72,7 +72,7 @@ class MyScheduleView extends Component {
       <ListContainer
         title="My SM"
         parallaxContent={profilePicture}
-        backgroundImage={require('./img/my-f8-background.png')}
+        backgroundImage={require('./img/my-sm-background.png')}
         backgroundColor={'#A8D769'}
         onSegmentChange={this.handleSegmentChanged}
         rightItem={rightItem}

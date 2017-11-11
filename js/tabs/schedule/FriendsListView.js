@@ -65,7 +65,7 @@ class FriendsListView extends React.Component {
     return (
       <EmptySchedule
         image={require('./img/no-friends-found.png')}
-        text={'Friends using the F8 app\nwill appear here.'}>
+        text={'Friends using the SM app\nwill appear here.'}>
         <InviteFriendsButton />
       </EmptySchedule>
     );

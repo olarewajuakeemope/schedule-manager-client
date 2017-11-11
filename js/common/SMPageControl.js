@@ -1,5 +1,5 @@
 /**
- * @providesModule F8PageControl
+ * @providesModule SMPageControl
  * @flow
  */
 'use strict';
@@ -9,7 +9,7 @@ var React = require('React');
 var StyleSheet = require('StyleSheet');
 var View = require('View');
 
-class F8PageControl extends React.Component {
+class SMPageControl extends React.Component {
   propTypes: {
     style: View.propTypes.style,
     count: PropTypes.number.isRequired,
@@ -63,8 +63,8 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = F8PageControl;
+module.exports = SMPageControl;
 module.exports.__cards__ = (define) => {
-  define('Simple 2', () => <F8PageControl count={2} selectedIndex={0} />);
-  define('Simple 5', () => <F8PageControl count={5} selectedIndex={2} />);
+  define('Simple 2', () => <SMPageControl count={2} selectedIndex={0} />);
+  define('Simple 5', () => <SMPageControl count={5} selectedIndex={2} />);
 };

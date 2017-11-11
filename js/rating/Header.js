@@ -10,7 +10,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
-import F8Colors from '../common/SMColors';
+import SMColors from '../common/SMColors';
 
 import type {Session} from '../reducers/sessions';
 
@@ -57,14 +57,14 @@ var styles = StyleSheet.create({
   },
   label: {
     fontSize: 12,
-    color: F8Colors.lightText,
+    color: SMColors.lightText,
     letterSpacing: 1,
   },
   title: {
     marginTop: 10,
     fontSize: 17,
     fontWeight: 'bold',
-    color: F8Colors.darkText,
+    color: SMColors.darkText,
     textAlign: 'center',
   },
   speakers: {

@@ -67,7 +67,7 @@ class LoginScreen extends Component {
         </View>
         <Animated.View style={[styles.section, styles.last, this.fadeIn(2500, 20)]}>
           <Text style={styles.loginComment}>
-            Use Facebook to find your friends at F8.
+            Use Facebook to find your friends at SM.
           </Text>
           <LoginButton source="First screen" />
         </Animated.View>

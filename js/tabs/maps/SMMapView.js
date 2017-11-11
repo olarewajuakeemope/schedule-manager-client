@@ -85,7 +85,7 @@ class SMMapView extends Component {
 
       case 1:
         var nativeGoogleUrl = 'comgooglemaps-x-callback://?q=' +
-          address + '&x-success=f8://&x-source=F8';
+          address + '&x-success=sm://&x-source=SM';
         Linking.canOpenURL(nativeGoogleUrl).then((supported) => {
           var url = supported ? nativeGoogleUrl : 'http://maps.google.com/?q=' + address;
           Linking.openURL(url);

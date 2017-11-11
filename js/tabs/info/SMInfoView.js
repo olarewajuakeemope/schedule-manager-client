@@ -23,7 +23,7 @@ const POLICIES_LINKS = [{
   url: 'https://m.facebook.com/policies?_rdr',
 }, {
   title: 'Code of Conduct',
-  url: 'https://www.fbf8.com/code-of-conduct',
+  url: 'https://www.fb.com/code-of-conduct',
 }];
 
 function SMInfoView() {
