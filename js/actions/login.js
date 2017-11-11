@@ -55,28 +55,32 @@ async function queryFacebookAPI(path, ...args): Promise {
   // });
 }
 
-async function _logInWithFacebook(source: ?string): Promise<Array<Action>> {
+async function _logInWithFacebook(source: ?string, userDetails: ?Object): Promise<Array<Action>> {
   // await ParseFacebookLogin('public_profile,email,user_friends');
   // const profile = await queryFacebookAPI('/me', {fields: 'name,email'});
-  const profile = {
-    id: 'sdfghjkuytrewertjmnhgfd',
-    name: 'Olarewaju Opeyemi',
-    email: 'olarewajuakeemopeyemi@gmail.com',
-  };
+  const { email, password, username, type } = userDetails;
+  let user;
 
-  const user = await Parse.User.logIn("user", "password");
-  user.set('facebook_id', profile.id);
-  user.set('name', profile.name);
-  user.set('email', profile.email);
-  await user.save();
+  if (type === 'Log In') {
+    user = await Parse.User.logIn(email, password);
+  } else {
+    user = await new Parse.User();
+    user.set('username', email);
+    user.set('password', password);
+    user.set('email', email);
+    await user.signUp(null);
+    user.set('facebook_id', user.id);
+    user.set('name', username);
+    await user.save();
+  }
   // await updateInstallation({user});
 
   const action = {
     type: 'LOGGED_IN',
     source,
     data: {
-      id: profile.id,
-      name: profile.name,
+      id: user.id,
+      name: user.get('name'),
       sharedSchedule: user.get('sharedSchedule'),
     },
   };
@@ -87,9 +91,9 @@ async function _logInWithFacebook(source: ?string): Promise<Array<Action>> {
   ]);
 }
 
-function logInWithFacebook(source: ?string): ThunkAction {
+function logInWithFacebook(source: ?string, user: ?Object): ThunkAction {
   return (dispatch) => {
-    const login = _logInWithFacebook(source);
+    const login = _logInWithFacebook(source, user);
 
     // Loading friends schedules shouldn't block the login process
     login.then(
@@ -109,13 +113,18 @@ function skipLogin(): Action {
   };
 }
 
+async function logUserOut(): Promise<Action> {
+  await Parse.User.logOut();
+}
+
 function logOut(): ThunkAction {
   return (dispatch) => {
-    Parse.User.logOut();
-    dispatch(NavigationActions.navigate({
-      routeName: 'home',
-    }));
-    // FacebookSDK.logout();
+    const logout = logUserOut();
+    logout.then(
+      dispatch(NavigationActions.navigate({
+        routeName: 'home',
+      }))
+    );
     // updateInstallation({user: null, channels: []});
 
     // TODO: Make sure reducers clear their state

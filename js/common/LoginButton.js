@@ -49,20 +49,20 @@ class LoginButton extends React.Component {
     return (
       <SMButton
         style={[styles.button, this.props.style]}
-        icon={require('../login/img/f-logo.png')}
-        caption="Log in"
+        caption={this.props.caption}
         onPress={() => this.logIn()}
       />
     );
   }
 
   async logIn() {
-    const { dispatch, onLoggedIn } = this.props;
+    const { dispatch, onLoggedIn, credentials } = this.props;
+    const userdetails = credentials();
 
     this.setState({ isLoading: true });
     try {
       await Promise.race([
-        dispatch(logInWithFacebook(this.props.source)),
+        dispatch(logInWithFacebook(this.props.source, userdetails)),
         timeout(15000),
       ]);
     } catch (e) {

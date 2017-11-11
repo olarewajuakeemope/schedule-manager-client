@@ -8,7 +8,8 @@ import { StackNavigator } from 'react-navigation';
 import {
   StyleSheet,
   Image,
-  View
+  View,
+  TextInput,
 } from 'react-native';
 import LoginButton from '../common/LoginButton';
 import SMColors from '../common/SMColors';
@@ -21,42 +22,148 @@ class LoginModal extends React.Component {
     onLogin: () => void;
   };
 
+  state = {
+    caption: this.props.caption,
+    counterCaption: '',
+    username: '',
+    email: '',
+    passowrd: '',
+  }
+
+  changeState = (caption) => {
+    if (caption === 'Log In') {
+      this.setState({
+        caption: 'Sign Up',
+        counterCaption: 'Log In',
+      });
+    } else {
+      this.setState({
+        caption: 'Log In',
+        counterCaption: 'Sign Up',
+      });
+    }
+  }
+
+  componentWillMount() {
+    const { caption } = this.props;
+    if (caption === 'Sign Up') {
+      this.setState({
+        counterCaption: 'Log In',
+      });
+    } else {
+      this.setState({
+        counterCaption: 'Sign Up',
+      });
+    }
+  }
+
+  createCredentials = (text, field) => {
+    const { email, username, password, caption } = this.state;
+    const credentials = {
+      username,
+      email,
+      password,
+      type: caption,
+    };
+    if (field === 'email') {
+      this.setState({
+        email: text
+      });
+    } else if (field === 'password') {
+      this.setState({
+        password: text
+      });
+    } else if (field === 'username') {
+      this.setState({
+        username: text
+      });
+    } else {
+      return credentials;
+    }
+  }
+
   render() {
+    let extraInput = <View />;
+    const {
+      caption,
+      counterCaption,
+      email,
+      password,
+    } = this.state;
+
+    if (caption === 'Sign Up') {
+      extraInput = (
+        <TextInput
+          value={this.state.username}
+          style={styles.input}
+          autoCapitalize="none"
+          placeholder="Enter Username"
+          onChangeText={text => this.createCredentials(text, 'username')}
+        />
+      );
+    }
     return (
       <View style={styles.container}>
         <Image
           style={styles.content}
           source={require('./img/login-background.png')}>
           <Text style={styles.h1}>
-            Log in with Facebook
+            {caption}
           </Text>
-          <Text style={styles.h2}>
-            to save sessions to{'\n'}your schedule.
+          <View style={styles.inputContainer}>
+            {extraInput}
+            <TextInput
+              value={email}
+              style={styles.input}
+              autoCapitalize="none"
+              placeholder="Enter Email"
+              onChangeText={text => this.createCredentials(text, 'email')}
+            />
+            <TextInput
+              value={password}
+              style={styles.input}
+              secureTextEntry={true}
+              autoCapitalize="none"
+              placeholder="Enter Password"
+              onChangeText={text => this.createCredentials(text, 'password')}
+            />
+          </View>
+          <LoginButton
+            caption={caption}
+            credentials={this.createCredentials}
+            onLoggedIn={() => this.loggedIn()}
+          />
+          <Text style={styles.h3}>
+            OR
           </Text>
-          <LoginButton onLoggedIn={() => this.loggedIn()} />
           <SMButton
             type="secondary"
-            caption="Not Now"
+            caption={counterCaption}
             source="Modal"
-            onPress={() => this.props.navigator.pop()}
+            onPress={() => this.changeState(caption)}
           />
         </Image>
       </View>
     );
   }
-
-  loggedIn() {
-    this.props.navigator.pop();
-    this.props.onLogin();
-  }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
     justifyContent: 'center',
     padding: 20,
+  },
+  inputContainer: {
+    padding: 10,
+    textAlign: 'left',
+    alignItems: 'flex-start',
+    width: 270,
+  },
+  input: {
+    height: 40,
+    width: 270,
   },
   content: {
     padding: 30,
@@ -73,14 +180,21 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     color: SMColors.darkText,
     textAlign: 'center',
-    marginTop: 130,
+    marginTop: 20,
   },
   h2: {
     fontSize: 18,
     lineHeight: 22,
     color: SMColors.darkText,
     textAlign: 'center',
-    marginBottom: 120,
+    marginBottom: 20,
+  },
+  h3: {
+    fontSize: 18,
+    lineHeight: 22,
+    color: SMColors.darkText,
+    marginTop: 20,
+    textAlign: 'center',
   },
   notNowButton: {
     padding: 20,

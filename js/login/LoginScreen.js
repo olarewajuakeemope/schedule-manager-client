@@ -16,20 +16,39 @@ import {
 import { connect } from 'react-redux';
 import SMColors from '../common/SMColors';
 import { Text } from '../common/SMText';
-import LoginButton from '../common/LoginButton';
+import LoginModal from './LoginModal';
+import SMButton from '../common/SMButton';
 
 import { skipLogin } from '../actions';
 
 class LoginScreen extends Component {
   state = {
     anim: new Animated.Value(0),
+    signup: false,
   };
 
   componentDidMount() {
     Animated.timing(this.state.anim, { toValue: 3000, duration: 3000 }).start();
   }
 
+  loginModal = (source) => {
+    if (source === 'login') {
+      this.setState({
+        signup: true,
+        caption: 'Log In',
+      });
+    } else {
+      this.setState({
+        signup: true,
+        caption: 'Sign Up',
+      });
+    }
+  }
+
   render() {
+    if (this.state.signup) {
+      return <LoginModal caption={this.state.caption} />;
+    }
     return (
       <Image
         style={styles.container}
@@ -66,10 +85,19 @@ class LoginScreen extends Component {
           </Animated.Text>
         </View>
         <Animated.View style={[styles.section, styles.last, this.fadeIn(2500, 20)]}>
-          <Text style={styles.loginComment}>
-            Login or Signup to plan Schedules in SM.
-          </Text>
-          <LoginButton source="First screen" />
+          <TouchableOpacity
+            accessibilityLabel="Sign Up"
+            accessibilityTraits="button"
+            onPress={() => this.loginModal('signup')}>
+            <Text style={styles.loginComment}>
+              SIGN UP
+            </Text>
+          </TouchableOpacity>
+          <SMButton
+            caption="Log in"
+            style={styles.button}
+            onPress={() => this.loginModal('login')}
+          />
         </Animated.View>
       </Image>
     );
@@ -111,6 +139,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  button: {
+    alignSelf: 'center',
+    width: 270,
+  },
   last: {
     justifyContent: 'flex-end',
   },
@@ -136,7 +168,8 @@ const styles = StyleSheet.create({
   loginComment: {
     marginBottom: 14,
     fontSize: 12,
-    color: SMColors.darkText,
+    fontWeight: 'bold',
+    color: SMColors.lightText,
     textAlign: 'center',
   },
   skip: {
