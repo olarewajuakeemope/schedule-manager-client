@@ -53,21 +53,21 @@ class LoginScreen extends Component {
         </View>
         <View style={styles.section}>
           <Animated.Text style={[styles.h1, this.fadeIn(700, -20)]}>
-            code to
+            schedule
           </Animated.Text>
           <Animated.Text style={[styles.h1, { marginTop: -30 }, this.fadeIn(700, 20)]}>
-            connect
+            manager
           </Animated.Text>
           <Animated.Text style={[styles.h2, this.fadeIn(1000, 10)]}>
-            April 12 + 13 / Fort Mason Center
+            Designed By Yours Truly
           </Animated.Text>
           <Animated.Text style={[styles.h3, this.fadeIn(1200, 10)]}>
-            SAN FRANCISCO, CALIFORNIA
+            OLAREWAJU AKEEM OPEYEMI
           </Animated.Text>
         </View>
         <Animated.View style={[styles.section, styles.last, this.fadeIn(2500, 20)]}>
           <Text style={styles.loginComment}>
-            Use Facebook to find your friends at SM.
+            Login or Signup to plan Schedules in SM.
           </Text>
           <LoginButton source="First screen" />
         </Animated.View>

@@ -50,7 +50,7 @@ class LoginButton extends React.Component {
       <SMButton
         style={[styles.button, this.props.style]}
         icon={require('../login/img/f-logo.png')}
-        caption="Log in with Facebook"
+        caption="Log in"
         onPress={() => this.logIn()}
       />
     );
