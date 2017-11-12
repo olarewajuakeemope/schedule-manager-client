@@ -14,6 +14,7 @@ import {
   Switch,
   DatePickerAndroid,
   Platform,
+  ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import SMDatePicker from '../../common/SMDatePicker';
@@ -232,74 +233,76 @@ class CreateModal extends React.Component {
     />;
 
     return (
-      <View style={styles.container}>
-        <TouchableOpacity
-          accessibilityLabel="Cancel"
-          accessibilityTraits="button"
-          style={styles.skip}
-          onPress={() => this.props.navigation.goBack()}
-        >
-          <Image
-            source={require('../../login/img/x.png')}
-          />
-        </TouchableOpacity>
-        <Image
-          style={styles.titleBg}
-          source={require('../../login/img/login-background.png')}
-        >
-          <Text style={styles.h1}>
-            {caption}
-          </Text>
-        </Image>
-        <View style={styles.inputContainer}>
-          <TextInput
-            value={title}
-            style={styles.input}
-            placeholder="Schedule Title"
-            onChangeText={text => this.setState({ title: text })}
-          />
-          <TextInput
-            value={description}
-            style={styles.input}
-            autoCapitalize="none"
-            placeholder="Description"
-            onChangeText={text => this.setState({ description: text })}
-          />
-          <TextInput
-            value={slug}
-            style={styles.input}
-            placeholder="Short Description"
-            onChangeText={text => this.setState({ slug: text })}
-          />
-          <TextInput
-            value={location}
-            style={styles.input}
-            placeholder="Location"
-            onChangeText={text => this.setState({ location: text })}
-          />
-          <TextInput
-            value={tags}
-            style={styles.input}
-            autoCapitalize="none"
-            placeholder="Enter tags seperated commas"
-            onChangeText={text => this.setState({ tags: text })}
-          />
-          <View style={styles.switchWrapper}>
-            <Text style={styles.text}>
-              All Day Schedule?
-            </Text>
-            <Switch
-              accessibilityLabel="Scheduled for everyday?"
-              style={styles.switch}
-              value={allDay}
-              onValueChange={enabled => this.setState({ allDay: enabled })}
-              onTintColor="#00E3AD"
+      <ScrollView>
+        <View style={styles.container}>
+          <TouchableOpacity
+            accessibilityLabel="Cancel"
+            accessibilityTraits="button"
+            style={styles.skip}
+            onPress={() => this.props.navigation.goBack()}
+          >
+            <Image
+              source={require('../../login/img/x.png')}
             />
+          </TouchableOpacity>
+          <Image
+            style={styles.titleBg}
+            source={require('../../login/img/login-background.png')}
+          >
+            <Text style={styles.h1}>
+              {caption}
+            </Text>
+          </Image>
+          <View style={styles.inputContainer}>
+            <TextInput
+              value={title}
+              style={styles.input}
+              placeholder="Schedule Title"
+              onChangeText={text => this.setState({ title: text })}
+            />
+            <TextInput
+              value={description}
+              style={styles.input}
+              autoCapitalize="none"
+              placeholder="Description"
+              onChangeText={text => this.setState({ description: text })}
+            />
+            <TextInput
+              value={slug}
+              style={styles.input}
+              placeholder="Short Description"
+              onChangeText={text => this.setState({ slug: text })}
+            />
+            <TextInput
+              value={location}
+              style={styles.input}
+              placeholder="Location"
+              onChangeText={text => this.setState({ location: text })}
+            />
+            <TextInput
+              value={tags}
+              style={styles.input}
+              autoCapitalize="none"
+              placeholder="Enter tags seperated commas"
+              onChangeText={text => this.setState({ tags: text })}
+            />
+            <View style={styles.switchWrapper}>
+              <Text style={styles.text}>
+                All Day Schedule?
+              </Text>
+              <Switch
+                accessibilityLabel="Scheduled for everyday?"
+                style={styles.switch}
+                value={allDay}
+                onValueChange={enabled => this.setState({ allDay: enabled })}
+                onTintColor="#00E3AD"
+              />
+            </View>
+            {renderTimer}
           </View>
-          {renderTimer}
+          {submitButton}
         </View>
-        {submitButton}
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -318,7 +321,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   inputContainer: {
-    padding: 10,
+    paddingTop: 100,
     textAlign: 'left',
     alignItems: 'flex-start',
     width: 270,
