@@ -70,6 +70,8 @@ class LoginButton extends React.Component {
       if (message !== 'Timed out' && message !== 'Canceled by user') {
         alert(message);
         console.warn(e);
+      } else {
+        alert('Cannot connect to server.\nPlease check your network connection');
       }
       return;
     } finally {

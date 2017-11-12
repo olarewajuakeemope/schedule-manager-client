@@ -4,8 +4,8 @@
 
 'use strict';
 
-const Parse = require('parse/react-native');
 import { NavigationActions } from 'react-navigation'
+const Parse = require('parse/react-native');
 const ActionSheetIOS = require('ActionSheetIOS');
 const {Platform} = require('react-native');
 const Alert = require('Alert');
@@ -15,49 +15,7 @@ const {loadSurveys} = require('./surveys');
 
 import type { Action, ThunkAction } from './types';
 
-function signUp(source: ?string): ThunkAction {
-  const user = new Parse.User();
-  user.set("username", "user");
-  user.set("password", "password");
-  user.set("email", "email@example.com");
-  
-  // other fields can be set just like with Parse.Object
-  user.set("phone", "415-392-0202");
-  
-  user.signUp(null, {
-    success: function(user) {
-      // Hooray! Let them use the app now.
-    },
-    error: function(user, error) {
-      // Show the error message somewhere and let the user try again.
-    }
-  });
-}
-
-async function ParseFacebookLogin(scope): Promise {
-  return new Promise((resolve, reject) => {
-    Parse.FacebookUtils.logIn(scope, {
-      success: resolve,
-      error: (user, error) => reject(error && error.error || error),
-    });
-  });
-}
-
-async function queryFacebookAPI(path, ...args): Promise {
-  // return new Promise((resolve, reject) => {
-  //   FacebookSDK.api(path, ...args, (response) => {
-  //     if (response && !response.error) {
-  //       resolve(response);
-  //     } else {
-  //       reject(response && response.error);
-  //     }
-  //   });
-  // });
-}
-
 async function _logInWithFacebook(source: ?string, userDetails: ?Object): Promise<Array<Action>> {
-  // await ParseFacebookLogin('public_profile,email,user_friends');
-  // const profile = await queryFacebookAPI('/me', {fields: 'name,email'});
   const { email, password, username, type } = userDetails;
   let user;
 
@@ -165,4 +123,4 @@ function logOutWithPrompt(): ThunkAction {
   };
 }
 
-module.exports = { logInWithFacebook, signUp, skipLogin, logOut, logOutWithPrompt };
+module.exports = { logInWithFacebook, skipLogin, logOut, logOutWithPrompt };

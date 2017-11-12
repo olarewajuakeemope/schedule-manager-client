@@ -11,11 +11,39 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Switch,
+  DatePickerAndroid,
+  Platform,
 } from 'react-native';
-import LoginButton from '../../common/LoginButton';
+import { connect } from 'react-redux';
+import SMDatePicker from '../../common/SMDatePicker';
 import SMColors from '../../common/SMColors';
 import { Text } from '../../common/SMText';
 import SMButton from '../../common/SMButton';
+import { createSchedule } from '../../actions';
+
+const initialState = {
+  caption: '',
+  loading: false,
+  datePicker: {
+    open: false,
+    title: '',
+    closeButton: null,
+  },
+  day: null,
+  allDay: null,
+  title: '',
+  description: '',
+  slug: '',
+  speakers: '',
+  onMySchedule: true,
+  tags: '',
+  date: new Date(),
+  startTime: null,
+  endTime: null,
+  map: '',
+  location: '',
+}
 
 class CreateModal extends React.Component {
   props: {
@@ -23,83 +51,269 @@ class CreateModal extends React.Component {
     onLogin: () => void;
   };
 
-  state = {
-    caption: '',
-    counterCaption: '',
-    username: '',
-    email: '',
-    passowrd: '',
-  }
+  state = initialState;
 
   componentWillMount() {
-    const { caption } = this.props;
-    if (caption === 'Sign Up') {
+    const { day } = this.props.navigation.state.params;
+    if (day === 1) {
       this.setState({
-        counterCaption: 'Log In',
+        caption: 'Create New Public Schedule',
+        day: 1,
+      });
+    } else if (day === 2) {
+      this.setState({
+        caption: 'Create New Shared Schedule',
+        day: 2,
+      });
+    } else if (day === 3) {
+      this.setState({
+        caption: 'Create New Private Schedule',
+        day: 3,
+      });
+    }
+  }
+
+  androidDatePicker = async (dateTitle) => {
+    try {
+      const { action, year, month, day } = await DatePickerAndroid.open({
+        date: new Date()
+      });
+      if (action !== DatePickerAndroid.dismissedAction) {
+        this.setState({
+          date: {
+            day,
+            month,
+            year,
+          },
+        });
+      }
+    } catch ({ code, message }) {
+      console.warn('Cannot open date picker', message);
+      alert(message);
+    }
+    this.androidSelectedDate(dateTitle);
+  }
+
+  handleDatePicker = (dateTitle) => {
+    if (Platform.OS === 'android') {
+      return this.androidDatePicker(dateTitle);
+    }
+    const { open } = this.state.datePicker;
+    this.setState({
+      datePicker: {
+        open: !open,
+        title: dateTitle,
+        closeButton: (
+          <SMButton
+            type="secondary"
+            caption="Done"
+            onPress={() => this.handleDatePicker()}
+          />
+        )
+      }
+    });
+  }
+
+  iosSelectedDate = (date) => {
+    const { title } = this.state.datePicker;
+    this.setState({
+      date,
+    });
+    if (title === 'End time') {
+      this.setState({
+        endTime: date.toDateString(),
       });
     } else {
       this.setState({
-        counterCaption: 'Sign Up',
+        startTime: date.toDateString(),
       });
+    }  
+  }
+
+  androidSelectedDate = (clickedButton) => {
+    const { day, month, year } = this.state.date;
+    if (clickedButton === 'End time') {
+      this.setState({
+        endTime: `${year}-${month}-${day}`,
+      });
+    } else {
+      this.setState({
+        startTime: `${year}-${month}-${day}`,
+      });
+    }
+  }
+
+  submit = async () => {
+    const { dispatch } = this.props;
+    this.setState({
+      loading: true,
+    });
+    try {
+      await Promise.race([
+        dispatch(createSchedule(this.state)),
+        timeout(15000),
+      ]);
+      alert('Schedule successfully created');
+      this.setState(initialState);
+    } catch (e) {
+      const message = e.message || e;
+      if (message !== 'Timed out' && message !== 'Canceled by user') {
+        alert(message);
+        console.warn(e);
+      } else {
+        alert('Cannot connect to server.\nPlease check your network connection');
+      }
+      return;
+    } finally {
+      this.setState({ loading: false });
     }
   }
 
   render() {
     const {
       caption,
-      counterCaption,
-      email,
-      password,
+      loading,
+      datePicker,
+      allDay,
+      title,
+      description,
+      slug,
+      speakers,
+      tags,
+      date,
+      startTime,
+      endTime,
+      map,
+      location,
     } = this.state;
+
+    let renderTimer;
+    if (!allDay) {
+      renderTimer = (
+        <View>
+          <SMButton
+            type="bordered"
+            caption={startTime || 'Start time'}
+            onPress={() => this.handleDatePicker('Start time')}
+            style={styles.dateButton}
+          />
+          <SMButton
+            type="bordered"
+            caption={endTime || 'End time'}
+            onPress={() => this.handleDatePicker('End time')}
+            style={styles.dateButton}
+          />
+        </View>
+      );
+    }
+
+    if (datePicker.open) {
+      const { closeButton } = datePicker;
+      return (
+        <SMDatePicker
+          closeButton={closeButton}
+          title={datePicker.title}
+          selectedDate={this.iosSelectedDate}
+          date={date}
+        />
+      );
+    }
+
+    const submitButton = loading ?
+      <SMButton
+        caption="Please Wait..."
+        style={{ marginTop: 30 }}
+        onPress={() => {}}
+      /> :
+      <SMButton
+        caption="Create Schedule"
+        style={{ marginTop: 30 }}
+        onPress={() => this.submit()}
+    />;
 
     return (
       <View style={styles.container}>
-        <Image
-          style={styles.content}
-          source={require('../../login/img/login-background.png')}>
-          <TouchableOpacity
-            accessibilityLabel="Cancel"
-            accessibilityTraits="button"
-            style={styles.skip}
-            onPress={() => this.props.navigation.goBack()}>
-            <Image
-              source={require('../../login/img/x.png')}
+        <TouchableOpacity
+          accessibilityLabel="Cancel"
+          accessibilityTraits="button"
+          style={styles.skip}
+          onPress={() => this.props.navigation.goBack()}
+        >
+          <Image
+            source={require('../../login/img/x.png')}
           />
         </TouchableOpacity>
+        <Image
+          style={styles.titleBg}
+          source={require('../../login/img/login-background.png')}
+        >
           <Text style={styles.h1}>
             {caption}
           </Text>
-          <View style={styles.inputContainer}>
-            <TextInput
-              value={email}
-              style={styles.input}
-              autoCapitalize="none"
-              placeholder="Enter Email"
-              onChangeText={text => this.setState({})}
-            />
-            <TextInput
-              value={password}
-              style={styles.input}
-              secureTextEntry={true}
-              autoCapitalize="none"
-              placeholder="Enter Password"
-              onChangeText={text => this.setState({})}
+        </Image>
+        <View style={styles.inputContainer}>
+          <TextInput
+            value={title}
+            style={styles.input}
+            placeholder="Schedule Title"
+            onChangeText={text => this.setState({ title: text })}
+          />
+          <TextInput
+            value={description}
+            style={styles.input}
+            autoCapitalize="none"
+            placeholder="Description"
+            onChangeText={text => this.setState({ description: text })}
+          />
+          <TextInput
+            value={slug}
+            style={styles.input}
+            placeholder="Short Description"
+            onChangeText={text => this.setState({ slug: text })}
+          />
+          <TextInput
+            value={location}
+            style={styles.input}
+            placeholder="Location"
+            onChangeText={text => this.setState({ location: text })}
+          />
+          <TextInput
+            value={tags}
+            style={styles.input}
+            autoCapitalize="none"
+            placeholder="Enter tags seperated commas"
+            onChangeText={text => this.setState({ tags: text })}
+          />
+          <View style={styles.switchWrapper}>
+            <Text style={styles.text}>
+              All Day Schedule?
+            </Text>
+            <Switch
+              accessibilityLabel="Scheduled for everyday?"
+              style={styles.switch}
+              value={allDay}
+              onValueChange={enabled => this.setState({ allDay: enabled })}
+              onTintColor="#00E3AD"
             />
           </View>
-          <LoginButton
-            caption={caption}
-            onLoggedIn={() => this.loggedIn()}
-          />
-        </Image>
+          {renderTimer}
+        </View>
+        {submitButton}
       </View>
     );
   }
 }
 
+async function timeout(ms: number): Promise {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => reject(new Error('Timed out')), ms);
+  });
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: 'rgb(255, 255, 255)',
     justifyContent: 'center',
     padding: 20,
   },
@@ -109,15 +323,18 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     width: 270,
   },
-  skip: {
-    position: 'absolute',
-    right: 0,
-    top: 20,
-    padding: 15,
-  },
   input: {
+    marginTop: 30,
     height: 40,
     width: 270,
+  },
+  switchWrapper: {
+    marginTop: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  switch: {
+    margin: 10,
   },
   content: {
     padding: 30,
@@ -128,6 +345,19 @@ const styles = StyleSheet.create({
     // it to prefer flex: 1
     width: undefined,
     height: undefined,
+  },
+  skip: {
+    position: 'absolute',
+    right: 0,
+    top: 20,
+    padding: 15,
+    zIndex: 2,
+  },
+  titleBg: {
+    position: 'absolute',
+    right: 0,
+    top: 20,
+    padding: 15,
   },
   h1: {
     fontSize: 22,
@@ -150,12 +380,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textAlign: 'center',
   },
-  notNowButton: {
-    padding: 20,
+  text: {
+    fontSize: 20,
+    color: 'rgb(199, 199, 205)',
+    textAlign: 'center',
   },
-  notNowLabel: {
-    color: SMColors.lightText,
+  dateButton: {
+    height: 40,
+    width: 200,
+    marginTop: 30
   }
 });
 
-module.exports = CreateModal;
+module.exports = connect()(CreateModal);
