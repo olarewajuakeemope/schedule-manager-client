@@ -24,7 +24,7 @@ var AddToScheduleButton = require('./AddToScheduleButton');
 
 var formatDuration = require('./formatDuration');
 var {connect} = require('react-redux');
-var {addToSchedule, removeFromScheduleWithPrompt} = require('../../actions');
+var { addToSchedule, removeFromScheduleWithPrompt } = require('../../actions');
 
 class SMSessionDetails extends React.Component{
   mixins = [Subscribable.Mixin];
@@ -141,7 +141,7 @@ class SMSessionDetails extends React.Component{
     );
   }
 
-toggleAdded() {
+toggleAdded = () => {
   if (this.props.isAddedToSchedule) {
     this.props.removeFromScheduleWithPrompt();
   } else {
@@ -149,16 +149,16 @@ toggleAdded() {
   }
 }
 
-addToSchedule() {
+addToSchedule = () => {
   if (!this.props.isLoggedIn) {
-    this.props.navigator.push({
+    this.props.navigation.navigate('login', {
       login: true, // TODO: Proper route
       callback: this.addToSchedule,
     });
   } else {
     this.props.addToSchedule();
     if (this.props.sharedSchedule === null) {
-      setTimeout(() => this.props.navigator.push({share: true}), 1000);
+      setTimeout(() => this.props.navigation.navigate('share', { share: true }), 1000);
     }
   }
 }
@@ -312,4 +312,4 @@ return {
 };
 }
 
-module.exports = connect(select, actions)(SMSessionDetails);
+module.exports = connect(select, actions)(SMSessionDetails); 

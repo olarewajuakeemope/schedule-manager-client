@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
     right: 0,
     top: 20,
     padding: 15,
+    display: 'none',
   },
 });
 

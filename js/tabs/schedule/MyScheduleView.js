@@ -92,21 +92,21 @@ class MyScheduleView extends Component {
 
     return [
       <ScheduleListView
-        title="Day 1"
+        title="Public"
         day={1}
         sessions={this.props.sessions}
         renderEmptyList={this.renderEmptySessionsList}
         navigation={this.props.navigation}
       />,
       <ScheduleListView
-        title="Day 2"
+        title="Invited"
         day={2}
         sessions={this.props.sessions}
         renderEmptyList={this.renderEmptySessionsList}
         navigation={this.props.navigation}
       />,
       <FriendsListView
-        title="Friends"
+        title="Private"
         friends={this.props.friends}
         navigation={this.props.navigation}
       />,
@@ -125,14 +125,22 @@ class MyScheduleView extends Component {
   }
 
   renderEmptySessionsList(day) {
+    const { navigate } = this.props.navigation;
+    const jumpTab = day === 1 ? 'Public' : 'Invites';
     return (
       <EmptySchedule
         key="schedule"
         image={require('./img/no-sessions-added.png')}
-        text={'Sessions you save will\nappear here.'}>
+        text={`${jumpTab} schedules you create or save\nwill appear here.`}>
         <SMButton
-          caption={`See the day ${day} schedule`}
+          type="secondary"
+          caption={`See the ${jumpTab} schedule`}
           onPress={() => this.props.jumpToSchedule(day)}
+        />
+        <SMButton
+          caption={`Create New ${jumpTab} schedule`}
+          source="Modal"
+          onPress={() => navigate('createModal', { day })}
         />
       </EmptySchedule>
     );

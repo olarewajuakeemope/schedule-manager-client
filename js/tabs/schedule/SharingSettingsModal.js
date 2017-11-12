@@ -16,7 +16,7 @@ var { connect } = require('react-redux');
 
 class SharingSettingsModal extends React.Component {
   props: {
-    navigator: StackNavigator;
+    navigation: StackNavigator;
     dispatch: () => void;
   };
 
@@ -43,7 +43,7 @@ class SharingSettingsModal extends React.Component {
 
   handleSetSharing(enabled: boolean) {
     this.props.dispatch(setSharingEnabled(enabled));
-    this.props.navigator.pop();
+    this.props.navigation.goBack();
   }
 }
 

@@ -16,7 +16,7 @@ class InviteFriendsButton extends React.Component {
   };
 
   render() {
-    const {appLinkURL, style} = this.props;
+    const { appLinkURL, style, navigation } = this.props;
     if (!appLinkURL) {
       return null;
     }
@@ -24,22 +24,10 @@ class InviteFriendsButton extends React.Component {
     return (
       <SMButton
         style={style}
-        caption="Invite friends to the SM app"
-        onPress={() => this.inviteFriends()}
+        caption="Create New Private Schedule"
+        onPress={() => navigation.navigate('createModal', { day: 3 })}
       />
     );
-  }
-
-  inviteFriends() {
-    // AppEventsLogger.logEvent('Invite Friends', 1);
-    // AppInviteDialog.show({
-    //   applinkUrl: this.props.appLinkURL,
-    //   previewImageUrl: this.props.appInvitePreviewImageURL,
-    // }).catch((error) => {
-    //   if (error.message) {
-    //     alert(error.message);
-    //   }
-    // });
   }
 }
 

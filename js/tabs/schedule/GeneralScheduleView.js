@@ -70,14 +70,14 @@ class GeneralScheduleView extends Component {
         stickyHeader={filterHeader}
         rightItem={filterItem}>
         <ScheduleListView
-          title="Day 1"
+          title="Public"
           day={1}
           sessions={this.props.sessions}
           renderEmptyList={this.renderEmptyList}
           navigation={this.props.navigation}
         />
         <ScheduleListView
-          title="Day 2"
+          title="Invites"
           day={2}
           sessions={this.props.sessions}
           renderEmptyList={this.renderEmptyList}

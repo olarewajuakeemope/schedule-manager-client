@@ -15,7 +15,7 @@ type Friend = any;
 
 type Props = {
   friends: Array<Friend>;
-  navigator: StackNavigator;
+  navigation: StackNavigator;
 };
 
 class FriendsListView extends React.Component {
@@ -65,18 +65,23 @@ class FriendsListView extends React.Component {
     return (
       <EmptySchedule
         image={require('./img/no-friends-found.png')}
-        text={'Friends using the SM app\nwill appear here.'}>
-        <InviteFriendsButton />
+        text={'You currently have no\nprivate Schedules'}>
+        <InviteFriendsButton navigation={this.props.navigation} />
       </EmptySchedule>
     );
   }
 
   renderFooter() {
-    return <InviteFriendsButton style={{margin: 20}} />;
+    return (
+      <InviteFriendsButton
+        navigation={this.props.navigation}
+        style={{ margin: 20 }}
+      />
+    );
   }
 
   openFriendsSchedule(friend: Friend) {
-    this.props.navigator.push({friend});
+    this.props.navigation.navigate('friend');
   }
 
   storeInnerRef(ref: ?PureListView) {

@@ -15,6 +15,7 @@ import LoginModal from './login/LoginModal';
 import SessionsCarousel from './tabs/schedule/SessionsCarousel';
 import SharingSettingsModal from './tabs/schedule/SharingSettingsModal';
 import SharingSettingsScreen from './tabs/schedule/SharingSettingsScreen';
+import CreateModal from './tabs/schedule/createModal';
 import ThirdPartyNotices from './tabs/info/ThirdPartyNotices';
 import RatingScreen from './rating/RatingScreen';
 import { switchTab } from './actions';
@@ -25,6 +26,7 @@ export const Navigator = StackNavigator({
   filter: { screen: FilterScreen },
   friend: { screen: FriendsScheduleView },
   login: { screen: LoginModal },
+  createModal: { screen: CreateModal },
   share: { screen: SharingSettingsModal },
   shareSettings: { screen: SharingSettingsScreen },
   rate: { screen: RatingScreen },
