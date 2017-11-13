@@ -35,12 +35,12 @@ class WiFiDetails extends Component {
   render() {
     const caption = this.state.copied
       ? 'Copied!'
-      : 'Copy password';
+      : 'Copy Repo';
     return (
-      <Section title="WiFi" style={styles.container}>
+      <Section title="Designer" style={styles.container}>
         <ItemsWithSeparator>
-          <Row label="Network" value={this.props.network} />
-          <Row label="Password" value={this.props.password} />
+          <Row label="First name" value={this.props.network} />
+          <Row label="Last name" value={this.props.password} />
         </ItemsWithSeparator>
         <SMButton
           style={styles.button}

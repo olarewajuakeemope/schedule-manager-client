@@ -14,7 +14,7 @@ async function currentInstallation(): Promise<Parse.Installation> {
     appName: 'Schedule Manager',
     deviceType: Platform.OS,
     // TODO: Get this information from the app itself
-    appIdentifier: Platform.OS === 'ios' ? 'com.facebook.SM' : 'com.facebook.SM',
+    appIdentifier: Platform.OS === 'ios' ? 'com.opeyemi.SM' : 'com.opeyemi.SM',
   });
 }
 

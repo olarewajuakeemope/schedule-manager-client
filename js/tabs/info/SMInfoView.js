@@ -16,14 +16,14 @@ import WiFiDetails from './WiFiDetails';
 
 
 const POLICIES_LINKS = [{
-  title: 'Terms of Service',
-  url: 'https://m.facebook.com/terms?_rdr',
+  title: 'Document Manager',
+  url: 'https://github.com/olarewajuakeemope/document-manager.',
 }, {
-  title: 'Data Policy',
-  url: 'https://m.facebook.com/policies?_rdr',
+  title: 'News Flash',
+  url: ' https://github.com/olarewajuakeemope/news-flash',
 }, {
-  title: 'Code of Conduct',
-  url: 'https://www.fb.com/code-of-conduct',
+  title: 'Libary Manager',
+  url: 'https://github.com/olarewajuakeemope/bc-library-application',
 }];
 
 function SMInfoView() {
@@ -47,8 +47,8 @@ function InfoList({viewer: {config, faqs, pages}, ...props}) {
             password={config.wifiPassword}
           />
           <CommonQuestions faqs={faqs} />
-          <LinksList title="Facebook pages" links={pages} />
-          <LinksList title="Facebook policies" links={POLICIES_LINKS} />
+          <LinksList title="Github Page" links={pages} />
+          <LinksList title="Related Projects" links={POLICIES_LINKS} />
         </View>
       )}
       {...(props: any /* flow can't guarantee the shape of props */)}

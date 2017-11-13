@@ -103,7 +103,7 @@ class SMSessionDetails extends React.Component{
           <Section>
             {speakersProfiles}
           </Section>
-          <Section title="Friends Going">
+          <Section title="Schedule members">
             {friendsGoing}
           </Section>
           {inlineMap}
