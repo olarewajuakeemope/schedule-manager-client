@@ -21,8 +21,20 @@ SCHEDULE MANAGER is a mobile aplication for schedule management. The application
 
 IOS            |  ANDROID
 :-------------------------:|:-------------------------:
-![Alt home page](/screenshots/ios/1-home.png?raw=true "home page") |  ![Alt home page](/screenshots/android/1-home.png?raw=true "home page")
-![Alt home page](/screenshots/ios/2-signup.png?raw=true "home page") |  ![Alt home page](/screenshots/android/2-signup.png?raw=true "home page")
+![Alt home page ios](/screenshots/ios/1-home.png?raw=true "home page ios") |  ![Alt home page android](/screenshots/android/1-home.png?raw=true "home page android")
+![Alt Sign up ios](/screenshots/ios/2-signup.png?raw=true "Sign up ios") |  ![Alt Sign up android](/screenshots/android/2-signup.png?raw=true "Sign up android")
+![Alt Signin ios](/screenshots/ios/3-signin.png?raw=true "Signin ios") |  ![Alt Signin android](/screenshots/android/3-signin.png?raw=true "Signin android")
+![Alt Landing page ios](/screenshots/ios/4-landing.png?raw=true "Landing page ios") |  ![Alt Landing page android](/screenshots/android/4-landing.png?raw=true "Landing page android")
+![Alt filter page ios](/screenshots/ios/5-filter.png?raw=true "filter page ios") |  ![Alt filter page android](/screenshots/android/5-filter.png?raw=true "filter page android")
+![Alt create form ios](/screenshots/ios/6-create-form.png?raw=true "create form ios") |  ![Alt create form android](/screenshots/android/6-create-form.png?raw=true "create form android")
+![Alt calendar form ios](/screenshots/ios/7-calendar-form.png?raw=true "calendar form ios") |  ![Alt calendar form android](/screenshots/android/7-calendar-form.png?raw=true "calendar form android")
+![Alt info page ios](/screenshots/ios/8-info.png?raw=true "info page ios") |  ![Alt info page android](/screenshots/android/8-info.png?raw=true "info page android")
+![Alt logout page ios](/screenshots/ios/9-logout.png?raw=true "logout page ios") |  ![Alt logout page android](/screenshots/android/9-logout.png?raw=true "logout page android")
+![Alt detail page ios](/screenshots/ios/10-detail.png?raw=true "detail page ios") |  ![Alt detail page android](/screenshots/android/10-detail.png?raw=true "detail page android")
+![Alt notification page ios](/screenshots/ios/11-notification.png?raw=true "notification page ios") |  ![Alt notification page android](/screenshots/android/11-notification.png?raw=true "notification page android")
+![Alt navigation ios](/screenshots/ios/12-navigation.png?raw=true "navigation ios") |  ![Alt navigation android](/screenshots/android/12-navigation.png?raw=true "navigation android")
+![Alt private ios](/screenshots/ios/13-private.png?raw=true "private ios") |  ![Alt private android](/screenshots/android/13-private.png?raw=true "private android")
+
 
 ## Limitations
 1. Push notification is yet to be implemented
