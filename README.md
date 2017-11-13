@@ -22,6 +22,7 @@ SCHEDULE MANAGER is a mobile aplication for schedule management. The application
 IOS            |  ANDROID
 :-------------------------:|:-------------------------:
 ![Alt home page](/screenshots/ios/1-home.png?raw=true "home page") |  ![Alt home page](/screenshots/android/1-home.png?raw=true "home page")
+![Alt home page](/screenshots/ios/2-signup.png?raw=true "home page") |  ![Alt home page](/screenshots/android/2-signup.png?raw=true "home page")
 
 ## Limitations
 1. Push notification is yet to be implemented
