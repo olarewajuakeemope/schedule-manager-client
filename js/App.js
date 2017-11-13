@@ -20,9 +20,9 @@ export default class App extends Component<{}> {
     super();
     console.disableYellowBox = true;
     Parse.initialize(APP_ID);
-    Parse.serverURL = 'http://localhost:1337/parse';
+    Parse.serverURL = `${SERVER_URL}/parse`;
     Relay.injectNetworkLayer(
-      new Relay.DefaultNetworkLayer('http://localhost:1337/graphql', {
+      new Relay.DefaultNetworkLayer(`${SERVER_URL}/graphql`, {
         fetchTimeout: 30000,
         retryDelays: [5000, 10000],
       }),

@@ -37,10 +37,10 @@ class SharingSettingsCommon extends React.Component {
         </Image>
         <View style={styles.content}>
           <Heading1 style={styles.h1}>
-            Let friends view your schedule in the SM app?
+            Let friends and teams view your schedule in the SM app?
           </Heading1>
           <Paragraph style={styles.p}>
-            This will not post to Facebook. Only friends using the SM app will
+            Only friends and teams using the SM app will
             be able to see your schedule in their My SM tab.
           </Paragraph>
         </View>
